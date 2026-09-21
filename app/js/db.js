@@ -166,8 +166,8 @@ const DB = {
         ...dados,
         id: _nextId(lista),
         pontos: dados.pontos || [],          // array de pontos do roteiro
-        tempoTotalParadoMin: 0,
-        custoEstimado: 0,
+        tempoTotalParadoMin: dados.tempoTotalParadoMin ?? 0,
+        custoEstimado: dados.custoEstimado ?? 0,
         criadoEm: new Date().toISOString(),
       };
       lista.push(obj);
@@ -266,7 +266,7 @@ const DB = {
         const lista = [
           { id: 1, nome: 'Administrador', email: 'admin@routewatch.com', senha: 'admin123', perfil: 'admin', ativo: true },
           { id: 2, nome: 'Gerente Demo', email: 'gerente@routewatch.com', senha: 'gerente123', perfil: 'gerente', ativo: true },
-          { id: 3, nome: 'João Motorista', email: 'joao@routewatch.com', senha: 'motor123', perfil: 'motorista', motoristaId: null, ativo: true },
+          { id: 3, nome: 'João Silva', email: 'joao@routewatch.com', senha: 'motor123', perfil: 'motorista', motoristaId: 1, ativo: true },
         ];
         _set(DB_KEYS.usuarios, lista);
       }
@@ -295,63 +295,142 @@ const DB = {
     DB.usuarios.init();
 
     if (DB.motoristas.listar().length === 0) {
-      const m1 = DB.motoristas.salvar({ nome: 'João Silva', telefone: '31 98888-1111', documento: '123.456.789-00', veiculo: 'Honda CG 160 — Branca', rendimentoKmLitro: 40 });
-      const m2 = DB.motoristas.salvar({ nome: 'Maria Santos', telefone: '31 97777-2222', documento: '987.654.321-00', veiculo: 'Yamaha Factor 150 — Vermelha', rendimentoKmLitro: 38 });
-
+      DB.motoristas.salvar({ nome: 'João Silva', telefone: '31 98888-1111', documento: '123.456.789-00', veiculo: 'Honda CG 160 — Branca', rendimentoKmLitro: 40 });
+      DB.motoristas.salvar({ nome: 'Maria Santos', telefone: '31 97777-2222', documento: '987.654.321-00', veiculo: 'Yamaha Factor 150 — Vermelha', rendimentoKmLitro: 38 });
       DB.gerentes.salvar({ nome: 'Carlos Gerente', telefone: '31 96666-3333', email: 'carlos@transportadora.com' });
+      DB.pontos.salvar({ endereco: 'Seg. Família — R. das Flores, 100, BH', latitude: -19.9245, longitude: -43.9352 });
+      DB.pontos.salvar({ endereco: 'Rua Peru, 55, Santa Efigênia, BH', latitude: -19.9300, longitude: -43.9200 });
+      DB.pontos.salvar({ endereco: 'Rua X, 5, Lagoinha, BH', latitude: -19.9180, longitude: -43.9500 });
+      DB.pontos.salvar({ endereco: 'Av. João César, 800, Caiçara, BH', latitude: -19.9100, longitude: -43.9600 });
+    }
 
-      const p1 = DB.pontos.salvar({ endereco: 'Seg. Família — R. das Flores, 100, BH', latitude: -19.9245, longitude: -43.9352 });
-      const p2 = DB.pontos.salvar({ endereco: 'Rua Peru, 55, Santa Efigênia, BH', latitude: -19.9300, longitude: -43.9200 });
-      const p3 = DB.pontos.salvar({ endereco: 'Rua X, 5, Lagoinha, BH', latitude: -19.9180, longitude: -43.9500 });
-      const p4 = DB.pontos.salvar({ endereco: 'Av. João César, 800, Caiçara, BH', latitude: -19.9100, longitude: -43.9600 });
+    DB._garantirDemoJoao();
+  },
 
-      // Roteiro de exemplo com tempos já registrados (data no passado)
-      const ontem = new Date(); ontem.setDate(ontem.getDate() - 1);
-      const dataOntem = ontem.toISOString().split('T')[0];
+  _dataLocalISO(offsetDias = 0) {
+    const d = new Date();
+    d.setHours(12, 0, 0, 0);
+    d.setDate(d.getDate() + offsetDias);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  },
 
-      const rotA = DB.roteiros.salvar({
-        motoristaId: m1.id,
-        data: dataOntem,
-        distanciaKm: 18.5,
-        pontos: [
-          { ordem: 1, pontoId: p1.id, endereco: p1.endereco, dataHoraChegada: `${dataOntem}T07:00:00`, dataHoraSaida: `${dataOntem}T07:00:00`, tempoParadoMin: 0 },
-          { ordem: 2, pontoId: p2.id, endereco: p2.endereco, dataHoraChegada: `${dataOntem}T07:45:00`, dataHoraSaida: `${dataOntem}T08:00:00`, tempoParadoMin: 15 },
-          { ordem: 3, pontoId: p3.id, endereco: p3.endereco, dataHoraChegada: `${dataOntem}T08:30:00`, dataHoraSaida: `${dataOntem}T08:40:00`, tempoParadoMin: 10 },
-          { ordem: 4, pontoId: p4.id, endereco: p4.endereco, dataHoraChegada: `${dataOntem}T09:10:00`, dataHoraSaida: `${dataOntem}T10:00:00`, tempoParadoMin: 50 },
-        ],
-        tempoTotalParadoMin: 75,
-        custoEstimado: 9.25,
-      });
+  _montarPontosDemo(pontosBase, data, temposMin, aberto = false) {
+    const horarios = [
+      { chegada: '07:00', saida: '07:00' },
+      { chegada: '07:45', saida: '08:00' },
+      { chegada: '08:30', saida: '08:40' },
+      { chegada: '09:10', saida: '10:00' },
+    ];
+    return pontosBase.map((p, i) => {
+      const ordem = i + 1;
+      if (aberto) {
+        return {
+          ordem, pontoId: p.id, endereco: p.endereco,
+          dataHoraChegada: null, dataHoraSaida: null,
+          tempoParadoMin: ordem === 1 ? 0 : null,
+        };
+      }
+      const h = horarios[i] || horarios[horarios.length - 1];
+      const saidaMin = ordem === 1 ? 0 : (temposMin[i] || 0);
+      const [ch, cm] = h.chegada.split(':').map(Number);
+      const saidaTotal = ch * 60 + cm + saidaMin;
+      const sh = String(Math.floor(saidaTotal / 60)).padStart(2, '0');
+      const sm = String(saidaTotal % 60).padStart(2, '0');
+      return {
+        ordem, pontoId: p.id, endereco: p.endereco,
+        dataHoraChegada: `${data}T${h.chegada}:00`,
+        dataHoraSaida: `${data}T${sh}:${sm}:00`,
+        tempoParadoMin: saidaMin,
+      };
+    });
+  },
 
-      // Roteiro do motorista 2
-      const rotB = DB.roteiros.salvar({
-        motoristaId: m2.id,
-        data: dataOntem,
-        distanciaKm: 12.0,
-        pontos: [
-          { ordem: 1, pontoId: p1.id, endereco: p1.endereco, dataHoraChegada: `${dataOntem}T08:00:00`, dataHoraSaida: `${dataOntem}T08:00:00`, tempoParadoMin: 0 },
-          { ordem: 2, pontoId: p2.id, endereco: p2.endereco, dataHoraChegada: `${dataOntem}T08:30:00`, dataHoraSaida: `${dataOntem}T08:40:00`, tempoParadoMin: 10 },
-          { ordem: 3, pontoId: p3.id, endereco: p3.endereco, dataHoraChegada: `${dataOntem}T09:00:00`, dataHoraSaida: `${dataOntem}T09:05:00`, tempoParadoMin: 5 },
-          { ordem: 4, pontoId: p4.id, endereco: p4.endereco, dataHoraChegada: `${dataOntem}T09:30:00`, dataHoraSaida: `${dataOntem}T09:56:00`, tempoParadoMin: 26 },
-        ],
-        tempoTotalParadoMin: 41,
-        custoEstimado: 6.00,
-      });
+  _garantirRoteiroDemo(motoristaId, data, distanciaKm, pontos, aberto = false) {
+    const params = DB.parametros.get();
+    const tempoTotalParadoMin = aberto ? 0 : Calculos.tempoTotalRoteiro(pontos);
+    const custoEstimado = Calculos.custoRoteiro(distanciaKm || 0, params);
+    const existente = DB.roteiros.buscarPorMotoristaData(motoristaId, data);
 
-      // Roteiro de hoje (em aberto para demonstração)
-      const hoje = new Date().toISOString().split('T')[0];
-      DB.roteiros.salvar({
-        motoristaId: m1.id,
-        data: hoje,
-        distanciaKm: 0,
-        pontos: [
-          { ordem: 1, pontoId: p1.id, endereco: p1.endereco, dataHoraChegada: null, dataHoraSaida: null, tempoParadoMin: 0 },
-          { ordem: 2, pontoId: p2.id, endereco: p2.endereco, dataHoraChegada: null, dataHoraSaida: null, tempoParadoMin: null },
-          { ordem: 3, pontoId: p3.id, endereco: p3.endereco, dataHoraChegada: null, dataHoraSaida: null, tempoParadoMin: null },
-          { ordem: 4, pontoId: p4.id, endereco: p4.endereco, dataHoraChegada: null, dataHoraSaida: null, tempoParadoMin: null },
-        ],
-        tempoTotalParadoMin: 0,
-        custoEstimado: 0,
+    if (existente) {
+      const tempoAtual = Calculos.tempoTotalRoteiro(existente.pontos || []);
+      const precisaAtualizar = !aberto && (existente.tempoTotalParadoMin || 0) === 0 && tempoAtual > 0;
+      if (precisaAtualizar) {
+        DB.roteiros.atualizar(existente.id, {
+          tempoTotalParadoMin: tempoAtual,
+          custoEstimado: Calculos.custoRoteiro(existente.distanciaKm || distanciaKm || 0, params),
+        });
+      }
+      return existente;
+    }
+
+    return DB.roteiros.salvar({
+      motoristaId, data, distanciaKm, pontos, tempoTotalParadoMin, custoEstimado,
+    });
+  },
+
+  /**
+   * Garante dados fictícios do motorista João visíveis para motorista, gerente e admin.
+   * Também vincula o login joao@routewatch.com ao cadastro de João Silva.
+   */
+  _garantirDemoJoao() {
+    const motoristas = DB.motoristas.listar();
+    const joao = motoristas.find(m => m.documento === '123.456.789-00' || m.nome === 'João Silva');
+    const maria = motoristas.find(m => m.documento === '987.654.321-00' || m.nome === 'Maria Santos');
+    if (!joao) return;
+
+    const usuarios = DB.usuarios.listar();
+    const usuarioJoao = usuarios.find(u => u.email === 'joao@routewatch.com');
+    if (usuarioJoao && usuarioJoao.motoristaId !== joao.id) {
+      usuarioJoao.motoristaId = joao.id;
+      usuarioJoao.nome = 'João Silva';
+      _set(DB_KEYS.usuarios, usuarios);
+    }
+
+    try {
+      const sess = JSON.parse(sessionStorage.getItem('rw_usuario_logado'));
+      if (sess && sess.email === 'joao@routewatch.com' && sess.motoristaId !== joao.id) {
+        sess.motoristaId = joao.id;
+        sess.nome = 'João Silva';
+        sessionStorage.setItem('rw_usuario_logado', JSON.stringify(sess));
+      }
+    } catch { /* sessão ausente */ }
+
+    const pontosBase = DB.pontos.listar().slice(0, 4);
+    if (pontosBase.length < 4) return;
+
+    const rotasJoao = [
+      { offset: -8, dist: 16.2, tempos: [0, 12, 8, 22] },
+      { offset: -7, dist: 19.0, tempos: [0, 18, 14, 40] },
+      { offset: -6, dist: 14.4, tempos: [0, 9, 11, 20] },
+      { offset: -5, dist: 21.8, tempos: [0, 25, 16, 45] },
+      { offset: -4, dist: 17.5, tempos: [0, 14, 10, 28] },
+      { offset: -3, dist: 20.1, tempos: [0, 22, 18, 33] },
+      { offset: -2, dist: 15.0, tempos: [0, 10, 7, 19] },
+      { offset: -1, dist: 18.5, tempos: [0, 15, 10, 50] },
+    ];
+
+    rotasJoao.forEach(rota => {
+      const data = DB._dataLocalISO(rota.offset);
+      const pontos = DB._montarPontosDemo(pontosBase, data, rota.tempos);
+      DB._garantirRoteiroDemo(joao.id, data, rota.dist, pontos);
+    });
+
+    const hoje = DB._dataLocalISO(0);
+    const pontosHoje = DB._montarPontosDemo(pontosBase, hoje, [], true);
+    DB._garantirRoteiroDemo(joao.id, hoje, 16.0, pontosHoje, true);
+
+    if (maria) {
+      const rotasMaria = [
+        { offset: -3, dist: 11.5, tempos: [0, 8, 6, 18] },
+        { offset: -1, dist: 12.0, tempos: [0, 10, 5, 26] },
+      ];
+      rotasMaria.forEach(rota => {
+        const data = DB._dataLocalISO(rota.offset);
+        const pontos = DB._montarPontosDemo(pontosBase, data, rota.tempos);
+        DB._garantirRoteiroDemo(maria.id, data, rota.dist, pontos);
       });
     }
   },
