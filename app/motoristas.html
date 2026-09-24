@@ -1,139 +1,143 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RouteWatch — Motoristas</title>
+  <title>Pitstop — Motoristas</title>
   <meta name="description" content="Cadastro e gerenciamento de motoristas e motoboys.">
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-<div class="app-layout">
-  <aside class="sidebar" id="sidebar"></aside>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
 
-  <main class="main-content">
-    <header class="topbar">
-      <div>
-        <h1 class="topbar-title">🏍️ Motoristas / Motoboys</h1>
-        <p class="topbar-subtitle">Cadastro e gerenciamento (RF01)</p>
-      </div>
-      <div class="topbar-actions">
-        <input type="text" class="form-control" id="busca" placeholder="🔍 Buscar..." style="width:220px" oninput="filtrarLista()">
-        <button class="btn btn-primary" onclick="abrirModal('modal-motorista')">+ Novo Motorista</button>
-      </div>
-    </header>
-
-    <div class="page-content animate-fade-in">
-
-      <div class="card">
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Nome</th>
-                <th>Telefone</th>
-                <th>Documento</th>
-                <th>Veículo</th>
-                <th>km/litro</th>
-                <th>Cadastrado em</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="tabela-motoristas"></tbody>
-          </table>
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <h1 class="topbar-title">🏍️ Motoristas / Motoboys</h1>
+          <p class="topbar-subtitle">Cadastro e gerenciamento (RF01)</p>
         </div>
-        <div class="empty-state" id="empty-motoristas" style="display:none">
-          <div class="empty-icon">🏍️</div>
-          <div class="empty-title">Nenhum motorista cadastrado</div>
-          <div class="empty-text">Clique em "+ Novo Motorista" para começar</div>
+        <div class="topbar-actions">
+          <input type="text" class="form-control" id="busca" placeholder="🔍 Buscar..." style="width:220px"
+            oninput="filtrarLista()">
+          <button class="btn btn-primary" onclick="abrirModal('modal-motorista')">+ Novo Motorista</button>
         </div>
-      </div>
+      </header>
 
+      <div class="page-content animate-fade-in">
+
+        <div class="card">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nome</th>
+                  <th>Telefone</th>
+                  <th>Documento</th>
+                  <th>Veículo</th>
+                  <th>km/litro</th>
+                  <th>Cadastrado em</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="tabela-motoristas"></tbody>
+            </table>
+          </div>
+          <div class="empty-state" id="empty-motoristas" style="display:none">
+            <div class="empty-icon">🏍️</div>
+            <div class="empty-title">Nenhum motorista cadastrado</div>
+            <div class="empty-text">Clique em "+ Novo Motorista" para começar</div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal Motorista -->
+  <div class="modal-overlay" id="modal-motorista">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-titulo">Novo Motorista</h2>
+        <button class="modal-close">✕</button>
+      </div>
+      <form id="form-motorista">
+        <input type="hidden" id="motorista-id">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Nome completo *</label>
+            <input class="form-control" type="text" id="motorista-nome" placeholder="João da Silva" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Telefone *</label>
+            <input class="form-control" type="tel" id="motorista-telefone" placeholder="31 99999-0000" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">CPF / CNH *</label>
+            <input class="form-control" type="text" id="motorista-documento" placeholder="000.000.000-00" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Rendimento do veículo (km/litro)</label>
+            <input class="form-control" type="number" id="motorista-kml" placeholder="12" min="1" max="100" step="0.1">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Veículo (marca/modelo/cor) *</label>
+          <input class="form-control" type="text" id="motorista-veiculo" placeholder="Honda CG 160 — Branca" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-close">Cancelar</button>
+          <button type="submit" class="btn btn-primary">💾 Salvar</button>
+        </div>
+      </form>
     </div>
-  </main>
-</div>
+  </div>
 
-<!-- Modal Motorista -->
-<div class="modal-overlay" id="modal-motorista">
-  <div class="modal">
-    <div class="modal-header">
-      <h2 class="modal-title" id="modal-titulo">Novo Motorista</h2>
-      <button class="modal-close">✕</button>
-    </div>
-    <form id="form-motorista">
-      <input type="hidden" id="motorista-id">
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Nome completo *</label>
-          <input class="form-control" type="text" id="motorista-nome" placeholder="João da Silva" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Telefone *</label>
-          <input class="form-control" type="tel" id="motorista-telefone" placeholder="31 99999-0000" required>
-        </div>
+  <!-- Modal Confirmar Exclusão -->
+  <div class="modal-overlay" id="modal-excluir">
+    <div class="modal" style="max-width:400px">
+      <div class="modal-header">
+        <h2 class="modal-title">⚠️ Confirmar exclusão</h2>
+        <button class="modal-close">✕</button>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">CPF / CNH *</label>
-          <input class="form-control" type="text" id="motorista-documento" placeholder="000.000.000-00" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Rendimento do veículo (km/litro)</label>
-          <input class="form-control" type="number" id="motorista-kml" placeholder="12" min="1" max="100" step="0.1">
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Veículo (marca/modelo/cor) *</label>
-        <input class="form-control" type="text" id="motorista-veiculo" placeholder="Honda CG 160 — Branca" required>
-      </div>
+      <p style="color:var(--clr-text-secondary)">Tem certeza que deseja excluir este motorista? Esta ação não pode ser
+        desfeita.</p>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary modal-close">Cancelar</button>
-        <button type="submit" class="btn btn-primary">💾 Salvar</button>
+        <button class="btn btn-secondary modal-close">Cancelar</button>
+        <button class="btn btn-danger" id="btn-confirmar-excluir">🗑️ Excluir</button>
       </div>
-    </form>
-  </div>
-</div>
-
-<!-- Modal Confirmar Exclusão -->
-<div class="modal-overlay" id="modal-excluir">
-  <div class="modal" style="max-width:400px">
-    <div class="modal-header">
-      <h2 class="modal-title">⚠️ Confirmar exclusão</h2>
-      <button class="modal-close">✕</button>
-    </div>
-    <p style="color:var(--clr-text-secondary)">Tem certeza que deseja excluir este motorista? Esta ação não pode ser desfeita.</p>
-    <div class="modal-footer">
-      <button class="btn btn-secondary modal-close">Cancelar</button>
-      <button class="btn btn-danger" id="btn-confirmar-excluir">🗑️ Excluir</button>
     </div>
   </div>
-</div>
 
-<script src="js/db.js"></script>
-<script src="js/calculos.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/ui.js"></script>
-<script>
-  iniciarPagina('motoristas.html');
-  Auth.exigirPerfil('admin', 'gerente');
-  DB.seed();
+  <script src="js/db.js"></script>
+  <script src="js/calculos.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    iniciarPagina('motoristas.html');
+    Auth.exigirPerfil('admin', 'gerente');
+    DB.seed();
 
-  let todosMotoristas = [];
-  let idParaExcluir = null;
+    let todosMotoristas = [];
+    let idParaExcluir = null;
 
-  function renderTabela(lista) {
-    const tbody = document.getElementById('tabela-motoristas');
-    const empty = document.getElementById('empty-motoristas');
+    function renderTabela(lista) {
+      const tbody = document.getElementById('tabela-motoristas');
+      const empty = document.getElementById('empty-motoristas');
 
-    if (lista.length === 0) {
-      tbody.innerHTML = '';
-      empty.style.display = 'block';
-      return;
-    }
-    empty.style.display = 'none';
+      if (lista.length === 0) {
+        tbody.innerHTML = '';
+        empty.style.display = 'block';
+        return;
+      }
+      empty.style.display = 'none';
 
-    tbody.innerHTML = lista.map(m => `
+      tbody.innerHTML = lista.map(m => `
       <tr>
         <td><span class="badge badge-muted">#${m.id}</span></td>
         <td><strong>${m.nome}</strong></td>
@@ -150,76 +154,77 @@
         </td>
       </tr>
     `).join('');
-  }
-
-  function carregarMotoristas() {
-    todosMotoristas = DB.motoristas.listar();
-    renderTabela(todosMotoristas);
-  }
-
-  function filtrarLista() {
-    const q = document.getElementById('busca').value.toLowerCase();
-    const filtrados = todosMotoristas.filter(m =>
-      m.nome.toLowerCase().includes(q) ||
-      m.documento.toLowerCase().includes(q) ||
-      m.veiculo.toLowerCase().includes(q)
-    );
-    renderTabela(filtrados);
-  }
-
-  function editarMotorista(id) {
-    const m = DB.motoristas.buscar(id);
-    if (!m) return;
-    document.getElementById('modal-titulo').textContent = 'Editar Motorista';
-    document.getElementById('motorista-id').value = m.id;
-    document.getElementById('motorista-nome').value = m.nome;
-    document.getElementById('motorista-telefone').value = m.telefone;
-    document.getElementById('motorista-documento').value = m.documento;
-    document.getElementById('motorista-veiculo').value = m.veiculo;
-    document.getElementById('motorista-kml').value = m.rendimentoKmLitro || '';
-    abrirModal('modal-motorista');
-  }
-
-  function solicitarExclusao(id) {
-    idParaExcluir = id;
-    abrirModal('modal-excluir');
-  }
-
-  document.getElementById('btn-confirmar-excluir').addEventListener('click', () => {
-    if (idParaExcluir) {
-      DB.motoristas.excluir(idParaExcluir);
-      fecharModal('modal-excluir');
-      carregarMotoristas();
-      showToast('Motorista excluído.', 'success');
-      idParaExcluir = null;
     }
-  });
 
-  document.getElementById('form-motorista').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const id = document.getElementById('motorista-id').value;
-    const dados = {
-      nome:              document.getElementById('motorista-nome').value.trim(),
-      telefone:          document.getElementById('motorista-telefone').value.trim(),
-      documento:         document.getElementById('motorista-documento').value.trim(),
-      veiculo:           document.getElementById('motorista-veiculo').value.trim(),
-      rendimentoKmLitro: parseFloat(document.getElementById('motorista-kml').value) || null,
-    };
-
-    try {
-      if (id) { DB.motoristas.atualizar(parseInt(id), dados); showToast('Motorista atualizado!', 'success'); }
-      else     { DB.motoristas.salvar(dados);                  showToast('Motorista cadastrado!', 'success'); }
-      fecharModal('modal-motorista');
-      document.getElementById('form-motorista').reset();
-      document.getElementById('motorista-id').value = '';
-      document.getElementById('modal-titulo').textContent = 'Novo Motorista';
-      carregarMotoristas();
-    } catch (err) {
-      showToast(err.message, 'error');
+    function carregarMotoristas() {
+      todosMotoristas = DB.motoristas.listar();
+      renderTabela(todosMotoristas);
     }
-  });
 
-  carregarMotoristas();
-</script>
+    function filtrarLista() {
+      const q = document.getElementById('busca').value.toLowerCase();
+      const filtrados = todosMotoristas.filter(m =>
+        m.nome.toLowerCase().includes(q) ||
+        m.documento.toLowerCase().includes(q) ||
+        m.veiculo.toLowerCase().includes(q)
+      );
+      renderTabela(filtrados);
+    }
+
+    function editarMotorista(id) {
+      const m = DB.motoristas.buscar(id);
+      if (!m) return;
+      document.getElementById('modal-titulo').textContent = 'Editar Motorista';
+      document.getElementById('motorista-id').value = m.id;
+      document.getElementById('motorista-nome').value = m.nome;
+      document.getElementById('motorista-telefone').value = m.telefone;
+      document.getElementById('motorista-documento').value = m.documento;
+      document.getElementById('motorista-veiculo').value = m.veiculo;
+      document.getElementById('motorista-kml').value = m.rendimentoKmLitro || '';
+      abrirModal('modal-motorista');
+    }
+
+    function solicitarExclusao(id) {
+      idParaExcluir = id;
+      abrirModal('modal-excluir');
+    }
+
+    document.getElementById('btn-confirmar-excluir').addEventListener('click', () => {
+      if (idParaExcluir) {
+        DB.motoristas.excluir(idParaExcluir);
+        fecharModal('modal-excluir');
+        carregarMotoristas();
+        showToast('Motorista excluído.', 'success');
+        idParaExcluir = null;
+      }
+    });
+
+    document.getElementById('form-motorista').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('motorista-id').value;
+      const dados = {
+        nome: document.getElementById('motorista-nome').value.trim(),
+        telefone: document.getElementById('motorista-telefone').value.trim(),
+        documento: document.getElementById('motorista-documento').value.trim(),
+        veiculo: document.getElementById('motorista-veiculo').value.trim(),
+        rendimentoKmLitro: parseFloat(document.getElementById('motorista-kml').value) || null,
+      };
+
+      try {
+        if (id) { DB.motoristas.atualizar(parseInt(id), dados); showToast('Motorista atualizado!', 'success'); }
+        else { DB.motoristas.salvar(dados); showToast('Motorista cadastrado!', 'success'); }
+        fecharModal('modal-motorista');
+        document.getElementById('form-motorista').reset();
+        document.getElementById('motorista-id').value = '';
+        document.getElementById('modal-titulo').textContent = 'Novo Motorista';
+        carregarMotoristas();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    });
+
+    carregarMotoristas();
+  </script>
 </body>
+
 </html>

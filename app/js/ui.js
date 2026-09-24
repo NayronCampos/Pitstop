@@ -1,5 +1,5 @@
 /**
- * RouteWatch — ui.js
+ * Pitstop — ui.js
  * Componentes e utilitários de UI reutilizáveis entre todas as páginas.
  */
 
@@ -77,19 +77,19 @@ function renderSidebar(paginaAtual) {
   const perfil = usuario ? usuario.perfil : '';
 
   const navItems = [
-    { href: 'dashboard.html',   icon: '📊', label: 'Dashboard',   perfis: ['admin','gerente'] },
-    { href: 'roteiros.html',    icon: '🗺️', label: 'Roteiros',    perfis: ['admin','gerente','motorista'] },
-    { href: 'pontos.html',      icon: '📍', label: 'Pontos',      perfis: ['admin','gerente'] },
-    { divider: true, label: 'Cadastros', perfis: ['admin','gerente'] },
-    { href: 'motoristas.html',  icon: '🏍️', label: 'Motoristas',  perfis: ['admin','gerente'] },
-    { href: 'gerentes.html',    icon: '👔', label: 'Gerentes',     perfis: ['admin'] },
-    { divider: true, label: 'Análise', perfis: ['admin','gerente'] },
-    { href: 'historico.html',   icon: '📋', label: 'Histórico',   perfis: ['admin','gerente','motorista'] },
+    { href: 'dashboard.html', icon: '📊', label: 'Dashboard', perfis: ['admin', 'gerente'] },
+    { href: 'roteiros.html', icon: '🗺️', label: 'Roteiros', perfis: ['admin', 'gerente', 'motorista'] },
+    { href: 'pontos.html', icon: '📍', label: 'Pontos', perfis: ['admin', 'gerente'] },
+    { divider: true, label: 'Cadastros', perfis: ['admin', 'gerente'] },
+    { href: 'motoristas.html', icon: '🏍️', label: 'Motoristas', perfis: ['admin', 'gerente'] },
+    { href: 'gerentes.html', icon: '👔', label: 'Gerentes', perfis: ['admin'] },
+    { divider: true, label: 'Análise', perfis: ['admin', 'gerente'] },
+    { href: 'historico.html', icon: '📋', label: 'Histórico', perfis: ['admin', 'gerente', 'motorista'] },
     { divider: true, label: 'Sistema', perfis: ['admin'] },
-    { href: 'parametros.html',  icon: '⚙️', label: 'Parâmetros',  perfis: ['admin'] },
+    { href: 'parametros.html', icon: '⚙️', label: 'Parâmetros', perfis: ['admin'] },
   ];
 
-  const initials = usuario ? usuario.nome.split(' ').map(n=>n[0]).slice(0,2).join('') : '?';
+  const initials = usuario ? usuario.nome.split(' ').map(n => n[0]).slice(0, 2).join('') : '?';
   const badges = { admin: '🔴 Admin', gerente: '🟡 Gerente', motorista: '🟢 Motorista' };
 
   let navHtml = '';
@@ -112,7 +112,7 @@ function renderSidebar(paginaAtual) {
     <div class="sidebar-logo">
       <div class="logo-icon">🚛</div>
       <div>
-        <div class="logo-text">RouteWatch</div>
+        <div class="logo-text">Pitstop</div>
         <span class="logo-tagline">Tempo parado = custo real</span>
       </div>
     </div>

@@ -1,97 +1,107 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RouteWatch — Gerentes</title>
+  <title>Pitstop — Gerentes</title>
   <meta name="description" content="Cadastro de gerentes e coordenadores.">
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-<div class="app-layout">
-  <aside class="sidebar" id="sidebar"></aside>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
 
-  <main class="main-content">
-    <header class="topbar">
-      <div>
-        <h1 class="topbar-title">👔 Gerentes / Coordenadores</h1>
-        <p class="topbar-subtitle">Cadastro e gerenciamento (RF02)</p>
-      </div>
-      <div class="topbar-actions">
-        <input type="text" class="form-control" id="busca" placeholder="🔍 Buscar..." style="width:220px" oninput="filtrarLista()">
-        <button class="btn btn-primary" onclick="novoGerente()">+ Novo Gerente</button>
-      </div>
-    </header>
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <h1 class="topbar-title">👔 Gerentes / Coordenadores</h1>
+          <p class="topbar-subtitle">Cadastro e gerenciamento (RF02)</p>
+        </div>
+        <div class="topbar-actions">
+          <input type="text" class="form-control" id="busca" placeholder="🔍 Buscar..." style="width:220px"
+            oninput="filtrarLista()">
+          <button class="btn btn-primary" onclick="novoGerente()">+ Novo Gerente</button>
+        </div>
+      </header>
 
-    <div class="page-content animate-fade-in">
-      <div class="card">
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr><th>#</th><th>Nome</th><th>Telefone</th><th>E-mail</th><th>Cadastrado em</th><th>Ações</th></tr>
-            </thead>
-            <tbody id="tabela-gerentes"></tbody>
-          </table>
-        </div>
-        <div class="empty-state" id="empty-gerentes" style="display:none">
-          <div class="empty-icon">👔</div>
-          <div class="empty-title">Nenhum gerente cadastrado</div>
-          <div class="empty-text">Clique em "+ Novo Gerente" para começar</div>
-        </div>
-      </div>
-    </div>
-  </main>
-</div>
-
-<!-- Modal -->
-<div class="modal-overlay" id="modal-gerente">
-  <div class="modal">
-    <div class="modal-header">
-      <h2 class="modal-title" id="modal-titulo">Novo Gerente</h2>
-      <button class="modal-close">✕</button>
-    </div>
-    <form id="form-gerente">
-      <input type="hidden" id="gerente-id">
-      <div class="form-group">
-        <label class="form-label">Nome completo *</label>
-        <input class="form-control" type="text" id="gerente-nome" placeholder="Carlos Oliveira" required>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Telefone *</label>
-          <input class="form-control" type="tel" id="gerente-telefone" placeholder="31 98888-0000" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">E-mail *</label>
-          <input class="form-control" type="email" id="gerente-email" placeholder="carlos@empresa.com" required>
+      <div class="page-content animate-fade-in">
+        <div class="card">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nome</th>
+                  <th>Telefone</th>
+                  <th>E-mail</th>
+                  <th>Cadastrado em</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="tabela-gerentes"></tbody>
+            </table>
+          </div>
+          <div class="empty-state" id="empty-gerentes" style="display:none">
+            <div class="empty-icon">👔</div>
+            <div class="empty-title">Nenhum gerente cadastrado</div>
+            <div class="empty-text">Clique em "+ Novo Gerente" para começar</div>
+          </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary modal-close">Cancelar</button>
-        <button type="submit" class="btn btn-primary">💾 Salvar</button>
-      </div>
-    </form>
+    </main>
   </div>
-</div>
 
-<script src="js/db.js"></script>
-<script src="js/calculos.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/ui.js"></script>
-<script>
-  iniciarPagina('gerentes.html');
-  Auth.exigirPerfil('admin');
-  DB.seed();
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal-gerente">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-titulo">Novo Gerente</h2>
+        <button class="modal-close">✕</button>
+      </div>
+      <form id="form-gerente">
+        <input type="hidden" id="gerente-id">
+        <div class="form-group">
+          <label class="form-label">Nome completo *</label>
+          <input class="form-control" type="text" id="gerente-nome" placeholder="Carlos Oliveira" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Telefone *</label>
+            <input class="form-control" type="tel" id="gerente-telefone" placeholder="31 98888-0000" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">E-mail *</label>
+            <input class="form-control" type="email" id="gerente-email" placeholder="carlos@empresa.com" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-close">Cancelar</button>
+          <button type="submit" class="btn btn-primary">💾 Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-  let todos = [];
-  let idParaExcluir = null;
+  <script src="js/db.js"></script>
+  <script src="js/calculos.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    iniciarPagina('gerentes.html');
+    Auth.exigirPerfil('admin');
+    DB.seed();
 
-  function renderTabela(lista) {
-    const tbody = document.getElementById('tabela-gerentes');
-    const empty = document.getElementById('empty-gerentes');
-    if (lista.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
-    empty.style.display = 'none';
-    tbody.innerHTML = lista.map(g => `
+    let todos = [];
+    let idParaExcluir = null;
+
+    function renderTabela(lista) {
+      const tbody = document.getElementById('tabela-gerentes');
+      const empty = document.getElementById('empty-gerentes');
+      if (lista.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+      empty.style.display = 'none';
+      tbody.innerHTML = lista.map(g => `
       <tr>
         <td><span class="badge badge-muted">#${g.id}</span></td>
         <td><strong>${g.nome}</strong></td>
@@ -106,58 +116,59 @@
         </td>
       </tr>
     `).join('');
-  }
-
-  function carregar() { todos = DB.gerentes.listar(); renderTabela(todos); }
-
-  function filtrarLista() {
-    const q = document.getElementById('busca').value.toLowerCase();
-    renderTabela(todos.filter(g => g.nome.toLowerCase().includes(q) || g.email.toLowerCase().includes(q)));
-  }
-
-  function novoGerente() {
-    document.getElementById('modal-titulo').textContent = 'Novo Gerente';
-    document.getElementById('form-gerente').reset();
-    document.getElementById('gerente-id').value = '';
-    abrirModal('modal-gerente');
-  }
-
-  function editar(id) {
-    const g = DB.gerentes.buscar(id);
-    if (!g) return;
-    document.getElementById('modal-titulo').textContent = 'Editar Gerente';
-    document.getElementById('gerente-id').value = g.id;
-    document.getElementById('gerente-nome').value = g.nome;
-    document.getElementById('gerente-telefone').value = g.telefone;
-    document.getElementById('gerente-email').value = g.email;
-    abrirModal('modal-gerente');
-  }
-
-  function excluir(id) {
-    if (confirm('Excluir este gerente?')) {
-      DB.gerentes.excluir(id);
-      carregar();
-      showToast('Gerente excluído.', 'success');
     }
-  }
 
-  document.getElementById('form-gerente').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const id = document.getElementById('gerente-id').value;
-    const dados = {
-      nome:     document.getElementById('gerente-nome').value.trim(),
-      telefone: document.getElementById('gerente-telefone').value.trim(),
-      email:    document.getElementById('gerente-email').value.trim(),
-    };
-    try {
-      if (id) { DB.gerentes.atualizar(parseInt(id), dados); showToast('Gerente atualizado!', 'success'); }
-      else    { DB.gerentes.salvar(dados);                   showToast('Gerente cadastrado!', 'success'); }
-      fecharModal('modal-gerente');
-      carregar();
-    } catch(err) { showToast(err.message, 'error'); }
-  });
+    function carregar() { todos = DB.gerentes.listar(); renderTabela(todos); }
 
-  carregar();
-</script>
+    function filtrarLista() {
+      const q = document.getElementById('busca').value.toLowerCase();
+      renderTabela(todos.filter(g => g.nome.toLowerCase().includes(q) || g.email.toLowerCase().includes(q)));
+    }
+
+    function novoGerente() {
+      document.getElementById('modal-titulo').textContent = 'Novo Gerente';
+      document.getElementById('form-gerente').reset();
+      document.getElementById('gerente-id').value = '';
+      abrirModal('modal-gerente');
+    }
+
+    function editar(id) {
+      const g = DB.gerentes.buscar(id);
+      if (!g) return;
+      document.getElementById('modal-titulo').textContent = 'Editar Gerente';
+      document.getElementById('gerente-id').value = g.id;
+      document.getElementById('gerente-nome').value = g.nome;
+      document.getElementById('gerente-telefone').value = g.telefone;
+      document.getElementById('gerente-email').value = g.email;
+      abrirModal('modal-gerente');
+    }
+
+    function excluir(id) {
+      if (confirm('Excluir este gerente?')) {
+        DB.gerentes.excluir(id);
+        carregar();
+        showToast('Gerente excluído.', 'success');
+      }
+    }
+
+    document.getElementById('form-gerente').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('gerente-id').value;
+      const dados = {
+        nome: document.getElementById('gerente-nome').value.trim(),
+        telefone: document.getElementById('gerente-telefone').value.trim(),
+        email: document.getElementById('gerente-email').value.trim(),
+      };
+      try {
+        if (id) { DB.gerentes.atualizar(parseInt(id), dados); showToast('Gerente atualizado!', 'success'); }
+        else { DB.gerentes.salvar(dados); showToast('Gerente cadastrado!', 'success'); }
+        fecharModal('modal-gerente');
+        carregar();
+      } catch (err) { showToast(err.message, 'error'); }
+    });
+
+    carregar();
+  </script>
 </body>
+
 </html>

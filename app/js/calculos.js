@@ -1,5 +1,5 @@
 /**
- * RouteWatch — calculos.js
+ * Pitstop — calculos.js
  * Lógica de negócio: cálculos de tempo parado e custo.
  * Implementa as Regras de Negócio RN01–RN07.
  */
@@ -20,8 +20,8 @@ const Calculos = {
 
     // RN02: tempo parado = saída − chegada
     const chegada = new Date(ponto.dataHoraChegada);
-    const saida   = new Date(ponto.dataHoraSaida);
-    const diffMs  = saida - chegada;
+    const saida = new Date(ponto.dataHoraSaida);
+    const diffMs = saida - chegada;
     return Math.max(0, Math.round(diffMs / 60000)); // retorna em minutos
   },
 

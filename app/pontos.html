@@ -1,99 +1,110 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RouteWatch — Pontos</title>
+  <title>Pitstop — Pontos</title>
   <meta name="description" content="Cadastro de pontos de parada com endereço e coordenadas.">
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-<div class="app-layout">
-  <aside class="sidebar" id="sidebar"></aside>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
 
-  <main class="main-content">
-    <header class="topbar">
-      <div>
-        <h1 class="topbar-title">📍 Pontos de Parada</h1>
-        <p class="topbar-subtitle">Cadastro de pontos com endereço e coordenadas (RF03)</p>
-      </div>
-      <div class="topbar-actions">
-        <input type="text" class="form-control" id="busca" placeholder="🔍 Buscar endereço..." style="width:240px" oninput="filtrarLista()">
-        <button class="btn btn-primary" onclick="novoPonto()">+ Novo Ponto</button>
-      </div>
-    </header>
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <h1 class="topbar-title">📍 Pontos de Parada</h1>
+          <p class="topbar-subtitle">Cadastro de pontos com endereço e coordenadas (RF03)</p>
+        </div>
+        <div class="topbar-actions">
+          <input type="text" class="form-control" id="busca" placeholder="🔍 Buscar endereço..." style="width:240px"
+            oninput="filtrarLista()">
+          <button class="btn btn-primary" onclick="novoPonto()">+ Novo Ponto</button>
+        </div>
+      </header>
 
-    <div class="page-content animate-fade-in">
-      <div class="card">
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr><th>#</th><th>Endereço</th><th>Latitude</th><th>Longitude</th><th>Cadastrado em</th><th>Ações</th></tr>
-            </thead>
-            <tbody id="tabela-pontos"></tbody>
-          </table>
-        </div>
-        <div class="empty-state" id="empty-pontos" style="display:none">
-          <div class="empty-icon">📍</div>
-          <div class="empty-title">Nenhum ponto cadastrado</div>
-          <div class="empty-text">Cadastre pontos para usá-los nos roteiros</div>
-        </div>
-      </div>
-    </div>
-  </main>
-</div>
-
-<!-- Modal -->
-<div class="modal-overlay" id="modal-ponto">
-  <div class="modal">
-    <div class="modal-header">
-      <h2 class="modal-title" id="modal-titulo">Novo Ponto</h2>
-      <button class="modal-close">✕</button>
-    </div>
-    <form id="form-ponto">
-      <input type="hidden" id="ponto-id">
-      <div class="form-group">
-        <label class="form-label">Endereço completo *</label>
-        <input class="form-control" type="text" id="ponto-endereco" placeholder="Rua das Flores, 123, Bairro, BH" required>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Latitude</label>
-          <input class="form-control" type="number" id="ponto-lat" placeholder="-19.9245" step="0.00001">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Longitude</label>
-          <input class="form-control" type="number" id="ponto-lng" placeholder="-43.9352" step="0.00001">
+      <div class="page-content animate-fade-in">
+        <div class="card">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Endereço</th>
+                  <th>Latitude</th>
+                  <th>Longitude</th>
+                  <th>Cadastrado em</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="tabela-pontos"></tbody>
+            </table>
+          </div>
+          <div class="empty-state" id="empty-pontos" style="display:none">
+            <div class="empty-icon">📍</div>
+            <div class="empty-title">Nenhum ponto cadastrado</div>
+            <div class="empty-text">Cadastre pontos para usá-los nos roteiros</div>
+          </div>
         </div>
       </div>
-      <div class="alert alert-info" style="font-size:var(--text-xs)">
-        💡 As coordenadas são opcionais. Você pode obtê-las no Google Maps clicando com o botão direito sobre o local.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary modal-close">Cancelar</button>
-        <button type="submit" class="btn btn-primary">💾 Salvar</button>
-      </div>
-    </form>
+    </main>
   </div>
-</div>
 
-<script src="js/db.js"></script>
-<script src="js/calculos.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/ui.js"></script>
-<script>
-  iniciarPagina('pontos.html');
-  Auth.exigirPerfil('admin', 'gerente');
-  DB.seed();
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal-ponto">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-titulo">Novo Ponto</h2>
+        <button class="modal-close">✕</button>
+      </div>
+      <form id="form-ponto">
+        <input type="hidden" id="ponto-id">
+        <div class="form-group">
+          <label class="form-label">Endereço completo *</label>
+          <input class="form-control" type="text" id="ponto-endereco" placeholder="Rua das Flores, 123, Bairro, BH"
+            required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Latitude</label>
+            <input class="form-control" type="number" id="ponto-lat" placeholder="-19.9245" step="0.00001">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Longitude</label>
+            <input class="form-control" type="number" id="ponto-lng" placeholder="-43.9352" step="0.00001">
+          </div>
+        </div>
+        <div class="alert alert-info" style="font-size:var(--text-xs)">
+          💡 As coordenadas são opcionais. Você pode obtê-las no Google Maps clicando com o botão direito sobre o local.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-close">Cancelar</button>
+          <button type="submit" class="btn btn-primary">💾 Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-  let todos = [];
+  <script src="js/db.js"></script>
+  <script src="js/calculos.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    iniciarPagina('pontos.html');
+    Auth.exigirPerfil('admin', 'gerente');
+    DB.seed();
 
-  function renderTabela(lista) {
-    const tbody = document.getElementById('tabela-pontos');
-    const empty = document.getElementById('empty-pontos');
-    if (lista.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
-    empty.style.display = 'none';
-    tbody.innerHTML = lista.map(p => `
+    let todos = [];
+
+    function renderTabela(lista) {
+      const tbody = document.getElementById('tabela-pontos');
+      const empty = document.getElementById('empty-pontos');
+      if (lista.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+      empty.style.display = 'none';
+      tbody.innerHTML = lista.map(p => `
       <tr>
         <td><span class="badge badge-muted">#${p.id}</span></td>
         <td>${p.endereco}</td>
@@ -108,58 +119,59 @@
         </td>
       </tr>
     `).join('');
-  }
-
-  function carregar() { todos = DB.pontos.listar(); renderTabela(todos); }
-
-  function filtrarLista() {
-    const q = document.getElementById('busca').value.toLowerCase();
-    renderTabela(todos.filter(p => p.endereco.toLowerCase().includes(q)));
-  }
-
-  function novoPonto() {
-    document.getElementById('modal-titulo').textContent = 'Novo Ponto';
-    document.getElementById('form-ponto').reset();
-    document.getElementById('ponto-id').value = '';
-    abrirModal('modal-ponto');
-  }
-
-  function editar(id) {
-    const p = DB.pontos.buscar(id);
-    if (!p) return;
-    document.getElementById('modal-titulo').textContent = 'Editar Ponto';
-    document.getElementById('ponto-id').value = p.id;
-    document.getElementById('ponto-endereco').value = p.endereco;
-    document.getElementById('ponto-lat').value = p.latitude || '';
-    document.getElementById('ponto-lng').value = p.longitude || '';
-    abrirModal('modal-ponto');
-  }
-
-  function excluir(id) {
-    if (confirm('Excluir este ponto?')) {
-      DB.pontos.excluir(id);
-      carregar();
-      showToast('Ponto excluído.', 'success');
     }
-  }
 
-  document.getElementById('form-ponto').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const id = document.getElementById('ponto-id').value;
-    const dados = {
-      endereco:  document.getElementById('ponto-endereco').value.trim(),
-      latitude:  parseFloat(document.getElementById('ponto-lat').value) || null,
-      longitude: parseFloat(document.getElementById('ponto-lng').value) || null,
-    };
-    try {
-      if (id) { DB.pontos.atualizar(parseInt(id), dados); showToast('Ponto atualizado!', 'success'); }
-      else    { DB.pontos.salvar(dados);                   showToast('Ponto cadastrado!', 'success'); }
-      fecharModal('modal-ponto');
-      carregar();
-    } catch(err) { showToast(err.message, 'error'); }
-  });
+    function carregar() { todos = DB.pontos.listar(); renderTabela(todos); }
 
-  carregar();
-</script>
+    function filtrarLista() {
+      const q = document.getElementById('busca').value.toLowerCase();
+      renderTabela(todos.filter(p => p.endereco.toLowerCase().includes(q)));
+    }
+
+    function novoPonto() {
+      document.getElementById('modal-titulo').textContent = 'Novo Ponto';
+      document.getElementById('form-ponto').reset();
+      document.getElementById('ponto-id').value = '';
+      abrirModal('modal-ponto');
+    }
+
+    function editar(id) {
+      const p = DB.pontos.buscar(id);
+      if (!p) return;
+      document.getElementById('modal-titulo').textContent = 'Editar Ponto';
+      document.getElementById('ponto-id').value = p.id;
+      document.getElementById('ponto-endereco').value = p.endereco;
+      document.getElementById('ponto-lat').value = p.latitude || '';
+      document.getElementById('ponto-lng').value = p.longitude || '';
+      abrirModal('modal-ponto');
+    }
+
+    function excluir(id) {
+      if (confirm('Excluir este ponto?')) {
+        DB.pontos.excluir(id);
+        carregar();
+        showToast('Ponto excluído.', 'success');
+      }
+    }
+
+    document.getElementById('form-ponto').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('ponto-id').value;
+      const dados = {
+        endereco: document.getElementById('ponto-endereco').value.trim(),
+        latitude: parseFloat(document.getElementById('ponto-lat').value) || null,
+        longitude: parseFloat(document.getElementById('ponto-lng').value) || null,
+      };
+      try {
+        if (id) { DB.pontos.atualizar(parseInt(id), dados); showToast('Ponto atualizado!', 'success'); }
+        else { DB.pontos.salvar(dados); showToast('Ponto cadastrado!', 'success'); }
+        fecharModal('modal-ponto');
+        carregar();
+      } catch (err) { showToast(err.message, 'error'); }
+    });
+
+    carregar();
+  </script>
 </body>
+
 </html>

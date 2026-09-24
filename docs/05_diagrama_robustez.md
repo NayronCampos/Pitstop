@@ -1,4 +1,4 @@
-# Diagrama de Robustez — RouteWatch
+# Diagrama de Robustez — Pitstop
 
 **Disciplina:** Engenharia de Software II  
 **Professor:** Sandro Laudares  
@@ -212,3 +212,4 @@ Gerente/Admin
       → EntMotorista (para filtro opcional por motorista)
     → TelaDashboard (renderiza gráficos via Chart.js)
 ```
+![diagrama de robustez](diagramas/diagrama_robustez.png)

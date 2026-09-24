@@ -1,5 +1,5 @@
 /**
- * RouteWatch — auth.js
+ * Pitstop — auth.js
  * Controle de acesso por perfil (RNF04).
  * Perfis: motorista, gerente, admin
  */

@@ -1,17 +1,17 @@
 /**
- * RouteWatch — db.js
+ * Pitstop — db.js
  * Camada de persistência usando localStorage como banco de dados.
  * Simula um banco relacional com entidades separadas.
  */
 
 const DB_KEYS = {
   motoristas: 'rw_motoristas',
-  gerentes:   'rw_gerentes',
-  pontos:     'rw_pontos_cadastro',
-  roteiros:   'rw_roteiros',
+  gerentes: 'rw_gerentes',
+  pontos: 'rw_pontos_cadastro',
+  roteiros: 'rw_roteiros',
   parametros: 'rw_parametros',
-  usuarios:   'rw_usuarios',
-  auditoria:  'rw_auditoria',
+  usuarios: 'rw_usuarios',
+  auditoria: 'rw_auditoria',
 };
 
 // ── Helpers ────────────────────────────────────────────────────────────────
@@ -262,18 +262,36 @@ const DB = {
     listar() { return _get(DB_KEYS.usuarios); },
 
     init() {
-      if (this.listar().length === 0) {
-        const lista = [
-          { id: 1, nome: 'Administrador', email: 'admin@routewatch.com', senha: 'admin123', perfil: 'admin', ativo: true },
-          { id: 2, nome: 'Gerente Demo', email: 'gerente@routewatch.com', senha: 'gerente123', perfil: 'gerente', ativo: true },
-          { id: 3, nome: 'João Silva', email: 'joao@routewatch.com', senha: 'motor123', perfil: 'motorista', motoristaId: 1, ativo: true },
-        ];
-        _set(DB_KEYS.usuarios, lista);
+      let lista = this.listar();
+      const demoUsers = [
+        { id: 1, nome: 'Administrador', email: 'admin@Pitstop.com', senha: 'admin123', perfil: 'admin', ativo: true },
+        { id: 2, nome: 'Gerente Demo', email: 'gerente@Pitstop.com', senha: 'gerente123', perfil: 'gerente', ativo: true },
+        { id: 3, nome: 'João Silva', email: 'joao@Pitstop.com', senha: 'motor123', perfil: 'motorista', motoristaId: 1, ativo: true },
+      ];
+
+      if (lista.length === 0) {
+        _set(DB_KEYS.usuarios, demoUsers);
+      } else {
+        let changed = false;
+        demoUsers.forEach(demo => {
+          const u = lista.find(user => user.email.toLowerCase() === demo.email.toLowerCase());
+          if (u) {
+            if (u.senha !== demo.senha) {
+              u.senha = demo.senha;
+              changed = true;
+            }
+          } else {
+            lista.push(demo);
+            changed = true;
+          }
+        });
+        if (changed) _set(DB_KEYS.usuarios, lista);
       }
     },
 
     autenticar(email, senha) {
-      return this.listar().find(u => u.email === email && u.senha === senha && u.ativo) || null;
+      const emailLower = email.toLowerCase();
+      return this.listar().find(u => u.email.toLowerCase() === emailLower && u.senha === senha && u.ativo) || null;
     },
 
     salvar(dados) {
@@ -373,7 +391,7 @@ const DB = {
 
   /**
    * Garante dados fictícios do motorista João visíveis para motorista, gerente e admin.
-   * Também vincula o login joao@routewatch.com ao cadastro de João Silva.
+   * Também vincula o login joao@Pitstop.com ao cadastro de João Silva.
    */
   _garantirDemoJoao() {
     const motoristas = DB.motoristas.listar();
@@ -382,7 +400,7 @@ const DB = {
     if (!joao) return;
 
     const usuarios = DB.usuarios.listar();
-    const usuarioJoao = usuarios.find(u => u.email === 'joao@routewatch.com');
+    const usuarioJoao = usuarios.find(u => u.email === 'joao@Pitstop.com');
     if (usuarioJoao && usuarioJoao.motoristaId !== joao.id) {
       usuarioJoao.motoristaId = joao.id;
       usuarioJoao.nome = 'João Silva';
@@ -391,7 +409,7 @@ const DB = {
 
     try {
       const sess = JSON.parse(sessionStorage.getItem('rw_usuario_logado'));
-      if (sess && sess.email === 'joao@routewatch.com' && sess.motoristaId !== joao.id) {
+      if (sess && sess.email === 'joao@Pitstop.com' && sess.motoristaId !== joao.id) {
         sess.motoristaId = joao.id;
         sess.nome = 'João Silva';
         sessionStorage.setItem('rw_usuario_logado', JSON.stringify(sess));

@@ -1,4 +1,4 @@
-# Visão Geral — MVP: RouteWatch
+# Visão Geral — MVP: Pitstop
 
 **Disciplina:** Engenharia de Software II  
 **Professor:** Sandro Laudares  

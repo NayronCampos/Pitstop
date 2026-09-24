@@ -1,35 +1,47 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RouteWatch — Login</title>
-  <meta name="description" content="RouteWatch: Sistema de Monitoramento de Tempo Parado em Roteiros para empresas de logística e entrega urbana.">
+  <title>Pitstop — Login</title>
+  <meta name="description"
+    content="Pitstop: Sistema de Monitoramento de Tempo Parado em Roteiros para empresas de logística e entrega urbana.">
   <link rel="stylesheet" href="css/style.css">
   <style>
-    body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: var(--clr-bg); }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: var(--clr-bg);
+    }
 
     .login-bg {
-      position: fixed; inset: 0; z-index: 0;
+      position: fixed;
+      inset: 0;
+      z-index: 0;
       background:
-        radial-gradient(ellipse at 20% 50%, rgba(99, 102, 241, 0.18) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 50%, rgba(249, 115, 22, 0.18) 0%, transparent 60%),
         radial-gradient(ellipse at 80% 20%, rgba(6, 182, 212, 0.12) 0%, transparent 60%),
-        radial-gradient(ellipse at 50% 100%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+        radial-gradient(ellipse at 50% 100%, rgba(249, 115, 22, 0.1) 0%, transparent 50%);
     }
 
     .login-container {
-      position: relative; z-index: 1;
-      width: 100%; max-width: 440px;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 440px;
       padding: var(--sp-4);
     }
 
     .login-card {
-      background: rgba(30, 41, 59, 0.85);
+      background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(20px);
-      border: 1px solid rgba(99, 102, 241, 0.25);
+      border: 1px solid rgba(249, 115, 22, 0.25);
       border-radius: var(--radius-xl);
       padding: var(--sp-10);
-      box-shadow: var(--shadow-lg), 0 0 60px rgba(99, 102, 241, 0.15);
+      box-shadow: var(--shadow-lg), 0 0 60px rgba(249, 115, 22, 0.15);
       animation: fadeIn 0.5s ease;
     }
 
@@ -39,10 +51,13 @@
     }
 
     .login-logo-icon {
-      width: 72px; height: 72px;
+      width: 72px;
+      height: 72px;
       background: var(--grad-primary);
       border-radius: var(--radius-xl);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 2rem;
       margin: 0 auto var(--sp-4);
       box-shadow: var(--shadow-glow);
@@ -77,8 +92,8 @@
     }
 
     .demo-accounts {
-      background: rgba(99, 102, 241, 0.08);
-      border: 1px solid rgba(99, 102, 241, 0.2);
+      background: rgba(249, 115, 22, 0.08);
+      border: 1px solid rgba(249, 115, 22, 0.2);
       border-radius: var(--radius-md);
       padding: var(--sp-4);
       margin-bottom: var(--sp-6);
@@ -94,17 +109,21 @@
     }
 
     .demo-item {
-      display: flex; align-items: center; gap: var(--sp-3);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
       padding: var(--sp-2) 0;
       cursor: pointer;
       border-radius: var(--radius-sm);
       transition: all var(--transition);
     }
 
-    .demo-item:hover { opacity: 0.8; }
+    .demo-item:hover {
+      opacity: 0.8;
+    }
 
     .demo-item:not(:last-child) {
-      border-bottom: 1px solid rgba(99, 102, 241, 0.15);
+      border-bottom: 1px solid rgba(249, 115, 22, 0.15);
     }
 
     .demo-badge {
@@ -116,9 +135,20 @@
       letter-spacing: 0.05em;
     }
 
-    .demo-badge.admin    { background: rgba(239, 68, 68, 0.2); color: #f87171; }
-    .demo-badge.gerente  { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
-    .demo-badge.motorista{ background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .demo-badge.admin {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+    }
+
+    .demo-badge.gerente {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+    }
+
+    .demo-badge.motorista {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+    }
 
     .demo-email {
       font-size: var(--text-xs);
@@ -142,121 +172,129 @@
       margin-bottom: var(--sp-4);
     }
 
-    .login-error.visible { display: flex; align-items: center; gap: var(--sp-2); }
+    .login-error.visible {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+    }
   </style>
 </head>
+
 <body>
 
-<div class="login-bg"></div>
+  <div class="login-bg"></div>
 
-<div class="login-container">
-  <div class="login-card">
+  <div class="login-container">
+    <div class="login-card">
 
-    <div class="login-logo">
-      <div class="login-logo-icon">🚛</div>
-      <div class="login-product-name">RouteWatch</div>
-      <p class="login-tagline">Monitoramento de Tempo Parado em Roteiros</p>
+      <div class="login-logo">
+        <div class="login-logo-icon">🚛</div>
+        <div class="login-product-name">Pitstop</div>
+        <p class="login-tagline">Monitoramento de Tempo Parado em Roteiros</p>
+      </div>
+
+      <h2 class="login-title">Bem-vindo de volta!</h2>
+      <p class="login-subtitle">Faça login para acessar o painel</p>
+
+      <div class="demo-accounts">
+        <p class="demo-title">🔑 Contas de demonstração — clique para preencher</p>
+        <div class="demo-item" onclick="preencherDemo('admin@Pitstop.com','admin123')">
+          <span class="demo-badge admin">Admin</span>
+          <span class="demo-email">admin@Pitstop.com</span>
+          <span class="demo-click">→ usar</span>
+        </div>
+        <div class="demo-item" onclick="preencherDemo('gerente@Pitstop.com','gerente123')">
+          <span class="demo-badge gerente">Gerente</span>
+          <span class="demo-email">gerente@Pitstop.com</span>
+          <span class="demo-click">→ usar</span>
+        </div>
+        <div class="demo-item" onclick="preencherDemo('joao@Pitstop.com','motor123')">
+          <span class="demo-badge motorista">Motorista</span>
+          <span class="demo-email">joao@Pitstop.com</span>
+          <span class="demo-click">→ usar</span>
+        </div>
+      </div>
+
+      <div class="login-error" id="login-error">
+        ⚠️ E-mail ou senha incorretos. Tente novamente.
+      </div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="email">E-mail</label>
+          <input class="form-control" type="email" id="email" placeholder="seu@email.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="senha">Senha</label>
+          <input class="form-control" type="password" id="senha" placeholder="••••••••" required
+            autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary"
+          style="width:100%; justify-content:center; margin-top:var(--sp-2);" id="btn-login">
+          🚀 Entrar
+        </button>
+      </form>
+
+      <div style="text-align:center; margin-top:var(--sp-6); color:var(--clr-text-muted); font-size:var(--text-xs);">
+        Pitstop &copy; 2026 — Engenharia de Software II / PUC Minas
+      </div>
+
     </div>
-
-    <h2 class="login-title">Bem-vindo de volta!</h2>
-    <p class="login-subtitle">Faça login para acessar o painel</p>
-
-    <div class="demo-accounts">
-      <p class="demo-title">🔑 Contas de demonstração — clique para preencher</p>
-      <div class="demo-item" onclick="preencherDemo('admin@routewatch.com','admin123')">
-        <span class="demo-badge admin">Admin</span>
-        <span class="demo-email">admin@routewatch.com</span>
-        <span class="demo-click">→ usar</span>
-      </div>
-      <div class="demo-item" onclick="preencherDemo('gerente@routewatch.com','gerente123')">
-        <span class="demo-badge gerente">Gerente</span>
-        <span class="demo-email">gerente@routewatch.com</span>
-        <span class="demo-click">→ usar</span>
-      </div>
-      <div class="demo-item" onclick="preencherDemo('joao@routewatch.com','motor123')">
-        <span class="demo-badge motorista">Motorista</span>
-        <span class="demo-email">joao@routewatch.com</span>
-        <span class="demo-click">→ usar</span>
-      </div>
-    </div>
-
-    <div class="login-error" id="login-error">
-      ⚠️ E-mail ou senha incorretos. Tente novamente.
-    </div>
-
-    <form id="login-form">
-      <div class="form-group">
-        <label class="form-label" for="email">E-mail</label>
-        <input class="form-control" type="email" id="email" placeholder="seu@email.com" required autocomplete="email">
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="senha">Senha</label>
-        <input class="form-control" type="password" id="senha" placeholder="••••••••" required autocomplete="current-password">
-      </div>
-      <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:var(--sp-2);" id="btn-login">
-        🚀 Entrar
-      </button>
-    </form>
-
-    <div style="text-align:center; margin-top:var(--sp-6); color:var(--clr-text-muted); font-size:var(--text-xs);">
-      RouteWatch &copy; 2026 — Engenharia de Software II / PUC Minas
-    </div>
-
   </div>
-</div>
 
-<div class="toast-container" id="toast-container"></div>
+  <div class="toast-container" id="toast-container"></div>
 
-<script src="js/db.js"></script>
-<script src="js/calculos.js"></script>
-<script src="js/auth.js"></script>
-<script>
-  // Inicializa dados de seed
-  DB.seed();
+  <script src="js/db.js"></script>
+  <script src="js/calculos.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Inicializa dados de seed
+    DB.seed();
 
-  // Se já logado, redireciona
-  if (Auth.usuarioAtual()) {
-    window.location.href = 'dashboard.html';
-  }
+    // Se já logado, redireciona
+    if (Auth.usuarioAtual()) {
+      window.location.href = 'dashboard.html';
+    }
 
-  function preencherDemo(email, senha) {
-    document.getElementById('email').value = email;
-    document.getElementById('senha').value = senha;
-    document.getElementById('email').focus();
-    showToast('Conta preenchida! Clique em Entrar.', 'info');
-  }
+    function preencherDemo(email, senha) {
+      document.getElementById('email').value = email;
+      document.getElementById('senha').value = senha;
+      document.getElementById('email').focus();
+      showToast('Conta preenchida! Clique em Entrar.', 'info');
+    }
 
-  document.getElementById('login-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const email = document.getElementById('email').value.trim();
-    const senha = document.getElementById('senha').value;
-    const btn = document.getElementById('btn-login');
+    document.getElementById('login-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const senha = document.getElementById('senha').value;
+      const btn = document.getElementById('btn-login');
 
-    btn.disabled = true;
-    btn.textContent = 'Entrando...';
+      btn.disabled = true;
+      btn.textContent = 'Entrando...';
 
-    setTimeout(() => {
-      const usuario = Auth.login(email, senha);
-      if (usuario) {
-        showToast('Login realizado com sucesso!', 'success');
-        setTimeout(() => window.location.href = 'dashboard.html', 600);
-      } else {
-        document.getElementById('login-error').classList.add('visible');
-        btn.disabled = false;
-        btn.innerHTML = '🚀 Entrar';
-      }
-    }, 400);
-  });
+      setTimeout(() => {
+        const usuario = Auth.login(email, senha);
+        if (usuario) {
+          showToast('Login realizado com sucesso!', 'success');
+          setTimeout(() => window.location.href = 'dashboard.html', 600);
+        } else {
+          document.getElementById('login-error').classList.add('visible');
+          btn.disabled = false;
+          btn.innerHTML = '🚀 Entrar';
+        }
+      }, 400);
+    });
 
-  function showToast(msg, tipo = 'info') {
-    const container = document.getElementById('toast-container');
-    const toast = document.createElement('div');
-    toast.className = `toast ${tipo}`;
-    const icons = { success: '✅', error: '❌', info: 'ℹ️' };
-    toast.innerHTML = `<span>${icons[tipo]}</span><span>${msg}</span>`;
-    container.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
-  }
-</script>
+    function showToast(msg, tipo = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${tipo}`;
+      const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+      toast.innerHTML = `<span>${icons[tipo]}</span><span>${msg}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+  </script>
 </body>
+
 </html>

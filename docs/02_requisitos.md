@@ -1,4 +1,4 @@
-# Requisitos do Sistema — RouteWatch
+# Requisitos do Sistema — Pitstop
 
 **Disciplina:** Engenharia de Software II  
 **Professor:** Sandro Laudares  
@@ -80,3 +80,5 @@
 - Dados pessoais (nome, telefone, documento) devem ser coletados com finalidade clara
 - Possibilidade de exclusão de dados do profissional sob solicitação
 - Acesso restrito a dados pessoais por perfil (RNF04)
+
+![diagrama de requisitos](diagramas/requisitos.png)

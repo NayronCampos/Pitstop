@@ -1,4 +1,4 @@
-# Critérios de Aceitação e Pontos Extras — RouteWatch
+# Critérios de Aceitação e Pontos Extras — Pitstop
 
 **Disciplina:** Engenharia de Software II  
 **Professor:** Sandro Laudares  
@@ -20,7 +20,7 @@
 
 ### 2.1 Nome do Produto
 
-**🚛 RouteWatch**
+**🚛 Pitstop**
 
 > *"Cada minuto parado tem um custo. Você já sabe o seu?"*
 
@@ -37,7 +37,7 @@
 #### Conceito da Campanha: *"Tempo Parado = Dinheiro Perdido"*
 
 **Slogan principal:**  
-> **"RouteWatch: Você sabe quantas horas sua frota ficou parada hoje?"**
+> **"Pitstop: Você sabe quantas horas sua frota ficou parada hoje?"**
 
 ---
 
@@ -47,16 +47,16 @@
 >
 > Cada minuto que seu motorista fica parado em um ponto do roteiro **custa dinheiro real** — combustível, salário, prazo.
 >
-> Com o **RouteWatch**, você:
+> Com o **Pitstop**, você:
 > ✅ Sabe exatamente onde e por quanto tempo cada entregador ficou parado  
 > ✅ Visualiza gráficos de tempo parado por dia, mês e período  
 > ✅ Calcula o custo real de cada rota  
 > ✅ Toma decisões baseadas em dados, não em achismo  
 >
 > **Transforme tempo invisível em vantagem competitiva.**  
-> 👉 Conheça o RouteWatch — *monitoramento de roteiros para logística urbana*
+> 👉 Conheça o Pitstop — *monitoramento de roteiros para logística urbana*
 >
-> `#logistica #entregaurbana #gestaodetransporte #routewatch #KPIs`
+> `#logistica #entregaurbana #gestaodetransporte #Pitstop #KPIs`
 
 ---
 
@@ -70,7 +70,7 @@
 >
 > O problema: **você não sabe onde está esse tempo.**
 >
-> O RouteWatch resolve isso com um painel simples e direto ao ponto:
+> O Pitstop resolve isso com um painel simples e direto ao ponto:
 >
 > | O que você vê | O que isso significa |
 > |---------------|----------------------|
@@ -79,10 +79,10 @@
 > | Custo estimado do roteiro | Decisão baseada em R$ reais |
 >
 > **Experimente gratuitamente.** Sem instalação, funciona no navegador.  
-> 👉 [Acessar RouteWatch]
+> 👉 [Acessar Pitstop]
 >
 > Atenciosamente,  
-> Equipe RouteWatch
+> Equipe Pitstop
 
 ---
 
@@ -90,11 +90,11 @@
 
 > "Você já se perguntou por que seus roteiros demoram mais do que o planejado?
 >
-> Com o **RouteWatch**, seus motoristas registram chegada e saída em cada ponto do roteiro diário. O sistema calcula automaticamente quanto tempo ficou parado em cada endereço e exibe tudo em um dashboard visual — por dia, por mês, por período.
+> Com o **Pitstop**, seus motoristas registram chegada e saída em cada ponto do roteiro diário. O sistema calcula automaticamente quanto tempo ficou parado em cada endereço e exibe tudo em um dashboard visual — por dia, por mês, por período.
 >
 > Resultado: você identifica gargalos, renegocia prazos com clientes e reduz custos com dados reais na mão.
 >
-> RouteWatch. **Porque tempo parado é custo visível."**
+> Pitstop. **Porque tempo parado é custo visível."**
 
 ---
 

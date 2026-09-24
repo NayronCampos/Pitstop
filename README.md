@@ -1,4 +1,4 @@
-# 🚛 RouteWatch
+# 🚛 Pitstop
 ### *Sistema de Monitoramento de Tempo Parado em Roteiros*
 
 > **"Cada minuto parado tem um custo. Você já sabe o seu?"**
@@ -13,7 +13,7 @@
 
 ## Sobre o Produto
 
-O **RouteWatch** é um MVP para empresas de logística e entrega urbana que precisam saber **onde** e **por quanto tempo** seus profissionais de campo ficam parados durante o roteiro diário.
+O **Pitstop** é um MVP para empresas de logística e entrega urbana que precisam saber **onde** e **por quanto tempo** seus profissionais de campo ficam parados durante o roteiro diário.
 
 O sistema permite registrar chegada e saída em cada ponto do roteiro, calcula automaticamente o tempo parado e apresenta dashboards com gráficos por dia, mês e período.
 
@@ -62,9 +62,9 @@ Projeto-ENG-II/
 
 | Perfil | E-mail | Senha |
 |--------|--------|-------|
-| 🔴 Admin | `admin@routewatch.com` | `admin123` |
-| 🟡 Gerente | `gerente@routewatch.com` | `gerente123` |
-| 🟢 Motorista | `joao@routewatch.com` | `motor123` |
+| 🔴 Admin | `admin@Pitstop.com` | `admin123` |
+| 🟡 Gerente | `gerente@Pitstop.com` | `gerente123` |
+| 🟢 Motorista | `joao@Pitstop.com` | `motor123` |
 
 > **Nota:** Os dados são persistidos no `localStorage` do navegador. Na primeira execução, dados de exemplo são carregados automaticamente.
 
@@ -121,7 +121,7 @@ Projeto-ENG-II/
 
 ## Pontos Extras
 
-### Nome do Produto: **RouteWatch** 🚛
+### Nome do Produto: **Pitstop** 🚛
 - **Route** = roteiro/rota (core do negócio)
 - **Watch** = monitorar + relógio/tempo (duplo sentido)
 

@@ -1,4 +1,4 @@
-# Modelo de Dados — RouteWatch
+# Modelo de Dados — Pitstop
 
 **Disciplina:** Engenharia de Software II  
 **Professor:** Sandro Laudares  
@@ -201,3 +201,4 @@ percentualParado = (tempoTotalParado / jornadaPadraoHoras) × 100   ← RN04
 litrosConsumidos = distanciaTotal / kmPorLitro
 custoEstimado    = litrosConsumidos × valorCombustivel              ← RN07
 ```
+![modelo de dados](diagramas/modelo_dados.png)

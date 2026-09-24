@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RouteWatch — Roteiros</title>
+  <title>Pitstop — Roteiros</title>
   <meta name="description" content="Montagem e acompanhamento de roteiros diários com check-in e check-out nos pontos.">
   <link rel="stylesheet" href="css/style.css">
   <style>
@@ -15,15 +16,26 @@
       margin-bottom: var(--sp-4);
       transition: box-shadow var(--transition);
     }
-    .roteiro-card:hover { box-shadow: var(--shadow-glow); }
 
-    .roteiro-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: var(--sp-4);
-      flex-wrap: wrap; gap: var(--sp-3);
+    .roteiro-card:hover {
+      box-shadow: var(--shadow-glow);
     }
 
-    .roteiro-meta { display: flex; gap: var(--sp-3); align-items: center; flex-wrap: wrap; }
+    .roteiro-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--sp-4);
+      flex-wrap: wrap;
+      gap: var(--sp-3);
+    }
+
+    .roteiro-meta {
+      display: flex;
+      gap: var(--sp-3);
+      align-items: center;
+      flex-wrap: wrap;
+    }
 
     .ponto-row {
       display: grid;
@@ -32,45 +44,80 @@
       gap: var(--sp-3);
       padding: var(--sp-3);
       border-radius: var(--radius-md);
-      background: rgba(99,102,241,0.04);
-      border: 1px solid rgba(99,102,241,0.1);
+      background: rgba(249, 115, 22, 0.04);
+      border: 1px solid rgba(249, 115, 22, 0.1);
       margin-bottom: var(--sp-2);
       transition: background var(--transition);
     }
 
-    .ponto-row:hover { background: rgba(99,102,241,0.08); }
+    .ponto-row:hover {
+      background: rgba(249, 115, 22, 0.08);
+    }
 
     .ponto-ordem {
-      width: 28px; height: 28px;
+      width: 28px;
+      height: 28px;
       background: var(--grad-primary);
       border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: var(--text-xs); font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-xs);
+      font-weight: 700;
       flex-shrink: 0;
     }
 
-    .ponto-ordem.partida { background: linear-gradient(135deg, var(--clr-accent), var(--clr-accent-dark)); }
-
-    .ponto-endereco { font-size: var(--text-sm); font-weight: 500; }
-    .ponto-horarios { font-size: var(--text-xs); color: var(--clr-text-muted); }
-
-    .ponto-tempo {
-      font-size: var(--text-sm); font-weight: 700;
-      color: var(--clr-primary-light);
-      min-width: 70px; text-align: center;
+    .ponto-ordem.partida {
+      background: linear-gradient(135deg, var(--clr-accent), var(--clr-accent-dark));
     }
 
-    .btn-checkin  { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
-    .btn-checkin:hover { background: rgba(16,185,129,0.25); }
-    .btn-checkout { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
-    .btn-checkout:hover { background: rgba(245,158,11,0.25); }
+    .ponto-endereco {
+      font-size: var(--text-sm);
+      font-weight: 500;
+    }
+
+    .ponto-horarios {
+      font-size: var(--text-xs);
+      color: var(--clr-text-muted);
+    }
+
+    .ponto-tempo {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--clr-primary-light);
+      min-width: 70px;
+      text-align: center;
+    }
+
+    .btn-checkin {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-checkin:hover {
+      background: rgba(16, 185, 129, 0.25);
+    }
+
+    .btn-checkout {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .btn-checkout:hover {
+      background: rgba(245, 158, 11, 0.25);
+    }
 
     .ponto-lista-modal {
-      max-height: 300px; overflow-y: auto;
+      max-height: 300px;
+      overflow-y: auto;
     }
 
     .ponto-select-item {
-      display: flex; align-items: center; gap: var(--sp-3);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
       padding: var(--sp-3);
       border-radius: var(--radius-md);
       cursor: pointer;
@@ -78,180 +125,193 @@
       border: 1px solid transparent;
     }
 
-    .ponto-select-item:hover { background: rgba(99,102,241,0.1); border-color: var(--clr-border); }
-    .ponto-select-item.selected { background: rgba(99,102,241,0.15); border-color: var(--clr-primary); }
+    .ponto-select-item:hover {
+      background: rgba(249, 115, 22, 0.1);
+      border-color: var(--clr-border);
+    }
 
-    .drag-handle { cursor: move; color: var(--clr-text-muted); font-size: 1rem; }
+    .ponto-select-item.selected {
+      background: rgba(249, 115, 22, 0.15);
+      border-color: var(--clr-primary);
+    }
+
+    .drag-handle {
+      cursor: move;
+      color: var(--clr-text-muted);
+      font-size: 1rem;
+    }
   </style>
 </head>
+
 <body>
-<div class="app-layout">
-  <aside class="sidebar" id="sidebar"></aside>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
 
-  <main class="main-content">
-    <header class="topbar">
-      <div>
-        <h1 class="topbar-title">🗺️ Roteiros</h1>
-        <p class="topbar-subtitle">Montagem e acompanhamento (RF04, RF05, RF06)</p>
-      </div>
-      <div class="topbar-actions">
-        <select class="form-control" id="filtro-data" style="width:160px" onchange="carregarRoteiros()">
-          <option value="">Todas as datas</option>
-        </select>
-        <select class="form-control" id="filtro-mot" style="width:180px" onchange="carregarRoteiros()">
-          <option value="">Todos os motoristas</option>
-        </select>
-        <button class="btn btn-primary" onclick="abrirModal('modal-roteiro')" data-perfil="admin,gerente">+ Novo Roteiro</button>
-      </div>
-    </header>
-
-    <div class="page-content animate-fade-in">
-      <div id="lista-roteiros"></div>
-      <div class="empty-state" id="empty-roteiros" style="display:none">
-        <div class="empty-icon">🗺️</div>
-        <div class="empty-title">Nenhum roteiro encontrado</div>
-        <div class="empty-text">Crie um novo roteiro ou ajuste os filtros</div>
-      </div>
-    </div>
-  </main>
-</div>
-
-<!-- Modal: Novo Roteiro -->
-<div class="modal-overlay" id="modal-roteiro">
-  <div class="modal" style="max-width:640px">
-    <div class="modal-header">
-      <h2 class="modal-title">Novo Roteiro</h2>
-      <button class="modal-close">✕</button>
-    </div>
-    <form id="form-roteiro">
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Motorista *</label>
-          <select class="form-control" id="rot-motorista" required></select>
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <h1 class="topbar-title">🗺️ Roteiros</h1>
+          <p class="topbar-subtitle">Montagem e acompanhamento (RF04, RF05, RF06)</p>
         </div>
-        <div class="form-group">
-          <label class="form-label">Data *</label>
-          <input class="form-control" type="date" id="rot-data" required>
+        <div class="topbar-actions">
+          <select class="form-control" id="filtro-data" style="width:160px" onchange="carregarRoteiros()">
+            <option value="">Todas as datas</option>
+          </select>
+          <select class="form-control" id="filtro-mot" style="width:180px" onchange="carregarRoteiros()">
+            <option value="">Todos os motoristas</option>
+          </select>
+          <button class="btn btn-primary" onclick="abrirModal('modal-roteiro')" data-perfil="admin,gerente">+ Novo
+            Roteiro</button>
+        </div>
+      </header>
+
+      <div class="page-content animate-fade-in">
+        <div id="lista-roteiros"></div>
+        <div class="empty-state" id="empty-roteiros" style="display:none">
+          <div class="empty-icon">🗺️</div>
+          <div class="empty-title">Nenhum roteiro encontrado</div>
+          <div class="empty-text">Crie um novo roteiro ou ajuste os filtros</div>
         </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Distância total estimada (km)</label>
-        <input class="form-control" type="number" id="rot-distancia" placeholder="15.5" min="0" step="0.1">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Pontos do Roteiro *</label>
-        <p style="font-size:var(--text-xs);color:var(--clr-text-muted);margin-bottom:var(--sp-2)">
-          Selecione os pontos na ordem desejada. O primeiro ponto será o de partida (não conta tempo parado — RN01).
-        </p>
-        <div class="ponto-lista-modal" id="pontos-disponiveis"></div>
-        <div id="pontos-selecionados" style="margin-top:var(--sp-3)"></div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary modal-close">Cancelar</button>
-        <button type="submit" class="btn btn-primary">💾 Criar Roteiro</button>
-      </div>
-    </form>
+    </main>
   </div>
-</div>
 
-<script src="js/db.js"></script>
-<script src="js/calculos.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/ui.js"></script>
-<script>
-  iniciarPagina('roteiros.html');
-  DB.seed();
+  <!-- Modal: Novo Roteiro -->
+  <div class="modal-overlay" id="modal-roteiro">
+    <div class="modal" style="max-width:640px">
+      <div class="modal-header">
+        <h2 class="modal-title">Novo Roteiro</h2>
+        <button class="modal-close">✕</button>
+      </div>
+      <form id="form-roteiro">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Motorista *</label>
+            <select class="form-control" id="rot-motorista" required></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Data *</label>
+            <input class="form-control" type="date" id="rot-data" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Distância total estimada (km)</label>
+          <input class="form-control" type="number" id="rot-distancia" placeholder="15.5" min="0" step="0.1">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Pontos do Roteiro *</label>
+          <p style="font-size:var(--text-xs);color:var(--clr-text-muted);margin-bottom:var(--sp-2)">
+            Selecione os pontos na ordem desejada. O primeiro ponto será o de partida (não conta tempo parado — RN01).
+          </p>
+          <div class="ponto-lista-modal" id="pontos-disponiveis"></div>
+          <div id="pontos-selecionados" style="margin-top:var(--sp-3)"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-close">Cancelar</button>
+          <button type="submit" class="btn btn-primary">💾 Criar Roteiro</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-  const usuario = Auth.usuarioAtual();
-  let pontosSelecionados = [];
+  <script src="js/db.js"></script>
+  <script src="js/calculos.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    iniciarPagina('roteiros.html');
+    DB.seed();
 
-  // ── Filtros ──────────────────────────────────────────────────
-  function preencherFiltros() {
-    const selData = document.getElementById('filtro-data');
-    const selMot  = document.getElementById('filtro-mot');
+    const usuario = Auth.usuarioAtual();
+    let pontosSelecionados = [];
 
-    // Datas únicas
-    const datas = [...new Set(DB.roteiros.listar().map(r => r.data))].sort().reverse();
-    datas.forEach(d => {
-      const opt = document.createElement('option');
-      opt.value = d; opt.textContent = Calculos.formatarData(d);
-      selData.appendChild(opt);
-    });
+    // ── Filtros ──────────────────────────────────────────────────
+    function preencherFiltros() {
+      const selData = document.getElementById('filtro-data');
+      const selMot = document.getElementById('filtro-mot');
 
-    // Motoristas
-    DB.motoristas.listar().forEach(m => {
-      const opt = document.createElement('option');
-      opt.value = m.id; opt.textContent = m.nome;
-      selMot.appendChild(opt);
-    });
+      // Datas únicas
+      const datas = [...new Set(DB.roteiros.listar().map(r => r.data))].sort().reverse();
+      datas.forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = d; opt.textContent = Calculos.formatarData(d);
+        selData.appendChild(opt);
+      });
 
-    // Se motorista logado, filtra automaticamente
-    if (usuario.perfil === 'motorista' && usuario.motoristaId) {
-      selMot.value = usuario.motoristaId;
-      selMot.disabled = true;
+      // Motoristas
+      DB.motoristas.listar().forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m.id; opt.textContent = m.nome;
+        selMot.appendChild(opt);
+      });
+
+      // Se motorista logado, filtra automaticamente
+      if (usuario.perfil === 'motorista' && usuario.motoristaId) {
+        selMot.value = usuario.motoristaId;
+        selMot.disabled = true;
+      }
     }
-  }
 
-  // ── Listar Roteiros ──────────────────────────────────────────
-  function carregarRoteiros() {
-    let roteiros = DB.roteiros.listar();
-    const filtroData = document.getElementById('filtro-data').value;
-    const filtroMot  = document.getElementById('filtro-mot').value;
+    // ── Listar Roteiros ──────────────────────────────────────────
+    function carregarRoteiros() {
+      let roteiros = DB.roteiros.listar();
+      const filtroData = document.getElementById('filtro-data').value;
+      const filtroMot = document.getElementById('filtro-mot').value;
 
-    if (filtroData) roteiros = roteiros.filter(r => r.data === filtroData);
-    if (filtroMot)  roteiros = roteiros.filter(r => r.motoristaId == filtroMot);
-    if (usuario.perfil === 'motorista' && usuario.motoristaId)
-      roteiros = roteiros.filter(r => r.motoristaId == usuario.motoristaId);
+      if (filtroData) roteiros = roteiros.filter(r => r.data === filtroData);
+      if (filtroMot) roteiros = roteiros.filter(r => r.motoristaId == filtroMot);
+      if (usuario.perfil === 'motorista' && usuario.motoristaId)
+        roteiros = roteiros.filter(r => r.motoristaId == usuario.motoristaId);
 
-    roteiros.sort((a, b) => b.data.localeCompare(a.data));
+      roteiros.sort((a, b) => b.data.localeCompare(a.data));
 
-    const container = document.getElementById('lista-roteiros');
-    const empty     = document.getElementById('empty-roteiros');
+      const container = document.getElementById('lista-roteiros');
+      const empty = document.getElementById('empty-roteiros');
 
-    if (roteiros.length === 0) {
-      container.innerHTML = '';
-      empty.style.display = 'block';
-      return;
-    }
-    empty.style.display = 'none';
+      if (roteiros.length === 0) {
+        container.innerHTML = '';
+        empty.style.display = 'block';
+        return;
+      }
+      empty.style.display = 'none';
 
-    const motoristas = DB.motoristas.listar();
-    const params     = DB.parametros.get();
+      const motoristas = DB.motoristas.listar();
+      const params = DB.parametros.get();
 
-    container.innerHTML = roteiros.map(r => {
-      const motorista = motoristas.find(m => m.id === r.motoristaId);
-      const pct = Calculos.percentualJornada(r.tempoTotalParadoMin, params.jornadaPadraoHoras);
-      const badgeCls = pct > 30 ? 'danger' : pct > 15 ? 'warning' : 'success';
-      const isHoje = r.data === new Date().toISOString().split('T')[0];
+      container.innerHTML = roteiros.map(r => {
+        const motorista = motoristas.find(m => m.id === r.motoristaId);
+        const pct = Calculos.percentualJornada(r.tempoTotalParadoMin, params.jornadaPadraoHoras);
+        const badgeCls = pct > 30 ? 'danger' : pct > 15 ? 'warning' : 'success';
+        const isHoje = r.data === new Date().toISOString().split('T')[0];
 
-      const pontosHtml = (r.pontos || []).map(p => {
-        const isPartida = p.ordem === 1;
-        const tempoLabel = isPartida ? '<span class="badge badge-muted">Partida</span>'
-          : (p.tempoParadoMin != null ? `<span class="ponto-tempo">${Calculos.formatarTempo(p.tempoParadoMin)}</span>` : '<span class="ponto-tempo">—</span>');
+        const pontosHtml = (r.pontos || []).map(p => {
+          const isPartida = p.ordem === 1;
+          const tempoLabel = isPartida ? '<span class="badge badge-muted">Partida</span>'
+            : (p.tempoParadoMin != null ? `<span class="ponto-tempo">${Calculos.formatarTempo(p.tempoParadoMin)}</span>` : '<span class="ponto-tempo">—</span>');
 
-        const btnHtml = isPartida ? '' : (() => {
-          if (!p.dataHoraChegada) return `<button class="btn btn-sm btn-checkin" onclick="checkIn(${r.id}, ${p.ordem})">✅ Chegada</button>`;
-          if (!p.dataHoraSaida)   return `<button class="btn btn-sm btn-checkout" onclick="checkOut(${r.id}, ${p.ordem})">🚪 Saída</button>`;
-          return `<span class="badge badge-success">✓ Concluído</span>`;
-        })();
+          const btnHtml = isPartida ? '' : (() => {
+            if (!p.dataHoraChegada) return `<button class="btn btn-sm btn-checkin" onclick="checkIn(${r.id}, ${p.ordem})">✅ Chegada</button>`;
+            if (!p.dataHoraSaida) return `<button class="btn btn-sm btn-checkout" onclick="checkOut(${r.id}, ${p.ordem})">🚪 Saída</button>`;
+            return `<span class="badge badge-success">✓ Concluído</span>`;
+          })();
 
-        return `
+          return `
           <div class="ponto-row">
             <div class="ponto-ordem ${isPartida ? 'partida' : ''}">${p.ordem}</div>
             <div>
               <div class="ponto-endereco">${p.endereco}</div>
               <div class="ponto-horarios">
                 ${p.dataHoraChegada ? `Chegada: ${Calculos.formatarDataHora(p.dataHoraChegada)}` : ''}
-                ${p.dataHoraSaida   ? ` | Saída: ${Calculos.formatarDataHora(p.dataHoraSaida)}` : ''}
+                ${p.dataHoraSaida ? ` | Saída: ${Calculos.formatarDataHora(p.dataHoraSaida)}` : ''}
               </div>
             </div>
             ${tempoLabel}
             <div style="min-width:130px;text-align:right">${btnHtml}</div>
           </div>
         `;
-      }).join('');
+        }).join('');
 
-      return `
+        return `
         <div class="roteiro-card animate-fade-in">
           <div class="roteiro-header">
             <div class="roteiro-meta">
@@ -270,96 +330,96 @@
           <div>${pontosHtml}</div>
         </div>
       `;
-    }).join('');
+      }).join('');
 
-    // Reaplica visibilidade por perfil
-    Auth.renderizarUsuario();
-  }
-
-  // ── Check-in / Check-out ─────────────────────────────────────
-  function checkIn(roteiroId, ordemPonto) {
-    try {
-      DB.roteiros.registrarChegada(roteiroId, ordemPonto);
-      carregarRoteiros();
-      showToast('Chegada registrada! ✅', 'success');
-    } catch(e) { showToast(e.message, 'error'); }
-  }
-
-  function checkOut(roteiroId, ordemPonto) {
-    try {
-      const ponto = DB.roteiros.registrarSaida(roteiroId, ordemPonto);
-      carregarRoteiros();
-      showToast(`Saída registrada! Tempo parado: ${Calculos.formatarTempo(ponto.tempoParadoMin)} 🚪`, 'success');
-    } catch(e) { showToast(e.message, 'error'); }
-  }
-
-  function excluirRoteiro(id) {
-    if (confirm('Excluir este roteiro e todos seus registros?')) {
-      DB.roteiros.excluir(id);
-      carregarRoteiros();
-      showToast('Roteiro excluído.', 'success');
-    }
-  }
-
-  // ── Modal Novo Roteiro ───────────────────────────────────────
-  function preencherModalRoteiro() {
-    // Motoristas
-    const sel = document.getElementById('rot-motorista');
-    sel.innerHTML = '<option value="">Selecione...</option>';
-    DB.motoristas.listar().forEach(m => {
-      const opt = document.createElement('option');
-      opt.value = m.id; opt.textContent = m.nome;
-      sel.appendChild(opt);
-    });
-
-    // Data padrão hoje
-    document.getElementById('rot-data').value = new Date().toISOString().split('T')[0];
-
-    // Pontos disponíveis
-    pontosSelecionados = [];
-    renderPontosDisponiveis();
-    renderPontosSelecionados();
-  }
-
-  function renderPontosDisponiveis() {
-    const container = document.getElementById('pontos-disponiveis');
-    const selecionadosIds = pontosSelecionados.map(p => p.id);
-    const pontos = DB.pontos.listar().filter(p => !selecionadosIds.includes(p.id));
-
-    if (pontos.length === 0) {
-      container.innerHTML = '<p style="color:var(--clr-text-muted);font-size:var(--text-sm);padding:var(--sp-2)">Todos os pontos já foram adicionados ou nenhum cadastrado.</p>';
-      return;
+      // Reaplica visibilidade por perfil
+      Auth.renderizarUsuario();
     }
 
-    container.innerHTML = pontos.map(p => `
+    // ── Check-in / Check-out ─────────────────────────────────────
+    function checkIn(roteiroId, ordemPonto) {
+      try {
+        DB.roteiros.registrarChegada(roteiroId, ordemPonto);
+        carregarRoteiros();
+        showToast('Chegada registrada! ✅', 'success');
+      } catch (e) { showToast(e.message, 'error'); }
+    }
+
+    function checkOut(roteiroId, ordemPonto) {
+      try {
+        const ponto = DB.roteiros.registrarSaida(roteiroId, ordemPonto);
+        carregarRoteiros();
+        showToast(`Saída registrada! Tempo parado: ${Calculos.formatarTempo(ponto.tempoParadoMin)} 🚪`, 'success');
+      } catch (e) { showToast(e.message, 'error'); }
+    }
+
+    function excluirRoteiro(id) {
+      if (confirm('Excluir este roteiro e todos seus registros?')) {
+        DB.roteiros.excluir(id);
+        carregarRoteiros();
+        showToast('Roteiro excluído.', 'success');
+      }
+    }
+
+    // ── Modal Novo Roteiro ───────────────────────────────────────
+    function preencherModalRoteiro() {
+      // Motoristas
+      const sel = document.getElementById('rot-motorista');
+      sel.innerHTML = '<option value="">Selecione...</option>';
+      DB.motoristas.listar().forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m.id; opt.textContent = m.nome;
+        sel.appendChild(opt);
+      });
+
+      // Data padrão hoje
+      document.getElementById('rot-data').value = new Date().toISOString().split('T')[0];
+
+      // Pontos disponíveis
+      pontosSelecionados = [];
+      renderPontosDisponiveis();
+      renderPontosSelecionados();
+    }
+
+    function renderPontosDisponiveis() {
+      const container = document.getElementById('pontos-disponiveis');
+      const selecionadosIds = pontosSelecionados.map(p => p.id);
+      const pontos = DB.pontos.listar().filter(p => !selecionadosIds.includes(p.id));
+
+      if (pontos.length === 0) {
+        container.innerHTML = '<p style="color:var(--clr-text-muted);font-size:var(--text-sm);padding:var(--sp-2)">Todos os pontos já foram adicionados ou nenhum cadastrado.</p>';
+        return;
+      }
+
+      container.innerHTML = pontos.map(p => `
       <div class="ponto-select-item" onclick="adicionarPontoAoRoteiro(${p.id}, '${p.endereco.replace(/'/g, "\\'")}')">
         <span>📍</span>
         <span style="font-size:var(--text-sm)">${p.endereco}</span>
         <span style="margin-left:auto;color:var(--clr-primary-light);font-size:var(--text-xs)">+ add</span>
       </div>
     `).join('');
-  }
-
-  function adicionarPontoAoRoteiro(id, endereco) {
-    pontosSelecionados.push({ id, endereco });
-    renderPontosDisponiveis();
-    renderPontosSelecionados();
-  }
-
-  function removerPontoDoRoteiro(idx) {
-    pontosSelecionados.splice(idx, 1);
-    renderPontosDisponiveis();
-    renderPontosSelecionados();
-  }
-
-  function renderPontosSelecionados() {
-    const container = document.getElementById('pontos-selecionados');
-    if (pontosSelecionados.length === 0) {
-      container.innerHTML = '<div class="alert alert-info" style="font-size:var(--text-xs)">Clique nos pontos acima para adicioná-los ao roteiro na ordem desejada.</div>';
-      return;
     }
 
-    container.innerHTML = `
+    function adicionarPontoAoRoteiro(id, endereco) {
+      pontosSelecionados.push({ id, endereco });
+      renderPontosDisponiveis();
+      renderPontosSelecionados();
+    }
+
+    function removerPontoDoRoteiro(idx) {
+      pontosSelecionados.splice(idx, 1);
+      renderPontosDisponiveis();
+      renderPontosSelecionados();
+    }
+
+    function renderPontosSelecionados() {
+      const container = document.getElementById('pontos-selecionados');
+      if (pontosSelecionados.length === 0) {
+        container.innerHTML = '<div class="alert alert-info" style="font-size:var(--text-xs)">Clique nos pontos acima para adicioná-los ao roteiro na ordem desejada.</div>';
+        return;
+      }
+
+      container.innerHTML = `
       <div style="font-size:var(--text-xs);font-weight:600;color:var(--clr-text-muted);margin-bottom:var(--sp-2);text-transform:uppercase;letter-spacing:.06em">Sequência do roteiro</div>
       ${pontosSelecionados.map((p, i) => `
         <div class="ponto-row" style="margin-bottom:var(--sp-2)">
@@ -374,55 +434,56 @@
         </div>
       `).join('')}
     `;
-  }
-
-  document.getElementById('form-roteiro').addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    if (pontosSelecionados.length < 2) {
-      showToast('Adicione ao menos 2 pontos ao roteiro (partida + 1 destino).', 'warning');
-      return;
     }
 
-    const motoristaId = parseInt(document.getElementById('rot-motorista').value);
-    const data        = document.getElementById('rot-data').value;
-    const distancia   = parseFloat(document.getElementById('rot-distancia').value) || 0;
+    document.getElementById('form-roteiro').addEventListener('submit', (e) => {
+      e.preventDefault();
 
-    if (!motoristaId || !data) { showToast('Preencha motorista e data.', 'warning'); return; }
+      if (pontosSelecionados.length < 2) {
+        showToast('Adicione ao menos 2 pontos ao roteiro (partida + 1 destino).', 'warning');
+        return;
+      }
 
-    const params = DB.parametros.get();
-    const pontos = pontosSelecionados.map((p, i) => ({
-      ordem: i + 1,
-      pontoId: p.id,
-      endereco: p.endereco,
-      dataHoraChegada: null,
-      dataHoraSaida:   null,
-      tempoParadoMin:  i === 0 ? 0 : null, // RN01
-    }));
+      const motoristaId = parseInt(document.getElementById('rot-motorista').value);
+      const data = document.getElementById('rot-data').value;
+      const distancia = parseFloat(document.getElementById('rot-distancia').value) || 0;
 
-    try {
-      DB.roteiros.salvar({ motoristaId, data, distanciaKm: distancia, pontos });
-      fecharModal('modal-roteiro');
-      carregarRoteiros();
-      showToast('Roteiro criado com sucesso! 🗺️', 'success');
-    } catch(err) { showToast(err.message, 'error'); }
-  });
+      if (!motoristaId || !data) { showToast('Preencha motorista e data.', 'warning'); return; }
 
-  // Abrir modal preenche os campos
-  document.getElementById('modal-roteiro').addEventListener('transitionend', (e) => {
-    if (e.target.id === 'modal-roteiro' && e.target.classList.contains('active')) {
-      preencherModalRoteiro();
-    }
-  });
+      const params = DB.parametros.get();
+      const pontos = pontosSelecionados.map((p, i) => ({
+        ordem: i + 1,
+        pontoId: p.id,
+        endereco: p.endereco,
+        dataHoraChegada: null,
+        dataHoraSaida: null,
+        tempoParadoMin: i === 0 ? 0 : null, // RN01
+      }));
 
-  // Preenche ao clicar no botão também
-  document.querySelector('[onclick="abrirModal(\'modal-roteiro\')"]')?.addEventListener('click', () => {
-    setTimeout(preencherModalRoteiro, 10);
-  });
+      try {
+        DB.roteiros.salvar({ motoristaId, data, distanciaKm: distancia, pontos });
+        fecharModal('modal-roteiro');
+        carregarRoteiros();
+        showToast('Roteiro criado com sucesso! 🗺️', 'success');
+      } catch (err) { showToast(err.message, 'error'); }
+    });
 
-  // Init
-  preencherFiltros();
-  carregarRoteiros();
-</script>
+    // Abrir modal preenche os campos
+    document.getElementById('modal-roteiro').addEventListener('transitionend', (e) => {
+      if (e.target.id === 'modal-roteiro' && e.target.classList.contains('active')) {
+        preencherModalRoteiro();
+      }
+    });
+
+    // Preenche ao clicar no botão também
+    document.querySelector('[onclick="abrirModal(\'modal-roteiro\')"]')?.addEventListener('click', () => {
+      setTimeout(preencherModalRoteiro, 10);
+    });
+
+    // Init
+    preencherFiltros();
+    carregarRoteiros();
+  </script>
 </body>
+
 </html>

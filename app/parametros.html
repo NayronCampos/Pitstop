@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RouteWatch — Parâmetros</title>
+  <title>Pitstop — Parâmetros</title>
   <meta name="description" content="Parametrização de custos e jornada de trabalho (RF09, RF10).">
   <link rel="stylesheet" href="css/style.css">
   <style>
@@ -19,12 +20,14 @@
       font-size: var(--text-lg);
       font-weight: 700;
       margin-bottom: var(--sp-5);
-      display: flex; align-items: center; gap: var(--sp-3);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
     }
 
     .preview-box {
-      background: rgba(99, 102, 241, 0.08);
-      border: 1px solid rgba(99, 102, 241, 0.2);
+      background: rgba(249, 115, 22, 0.08);
+      border: 1px solid rgba(249, 115, 22, 0.2);
       border-radius: var(--radius-md);
       padding: var(--sp-5);
       margin-top: var(--sp-6);
@@ -38,14 +41,25 @@
     }
 
     .preview-item {
-      display: flex; justify-content: space-between;
+      display: flex;
+      justify-content: space-between;
       padding: var(--sp-2) 0;
       font-size: var(--text-sm);
-      border-bottom: 1px solid rgba(99,102,241,0.1);
+      border-bottom: 1px solid rgba(249, 115, 22, 0.1);
     }
-    .preview-item:last-child { border-bottom: none; }
-    .preview-item-label { color: var(--clr-text-secondary); }
-    .preview-item-value { font-weight: 700; color: var(--clr-text-primary); }
+
+    .preview-item:last-child {
+      border-bottom: none;
+    }
+
+    .preview-item-label {
+      color: var(--clr-text-secondary);
+    }
+
+    .preview-item-value {
+      font-weight: 700;
+      color: var(--clr-text-primary);
+    }
 
     .auditoria-row {
       display: grid;
@@ -53,193 +67,213 @@
       gap: var(--sp-4);
       align-items: center;
       padding: var(--sp-3) 0;
-      border-bottom: 1px solid rgba(51,65,85,0.3);
+      border-bottom: 1px solid rgba(51, 65, 85, 0.3);
       font-size: var(--text-sm);
     }
-    .auditoria-row:last-child { border-bottom: none; }
+
+    .auditoria-row:last-child {
+      border-bottom: none;
+    }
   </style>
 </head>
+
 <body>
-<div class="app-layout">
-  <aside class="sidebar" id="sidebar"></aside>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
 
-  <main class="main-content">
-    <header class="topbar">
-      <div>
-        <h1 class="topbar-title">⚙️ Parâmetros do Sistema</h1>
-        <p class="topbar-subtitle">Configurações de custo e jornada — acesso exclusivo do Administrador (RF09, RF10)</p>
-      </div>
-      <div class="topbar-actions">
-        <button class="btn btn-primary" onclick="salvarParametros()">💾 Salvar Parâmetros</button>
-      </div>
-    </header>
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <h1 class="topbar-title">⚙️ Parâmetros do Sistema</h1>
+          <p class="topbar-subtitle">Configurações de custo e jornada — acesso exclusivo do Administrador (RF09, RF10)
+          </p>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn btn-primary" onclick="salvarParametros()">💾 Salvar Parâmetros</button>
+        </div>
+      </header>
 
-    <div class="page-content animate-fade-in">
+      <div class="page-content animate-fade-in">
 
-      <div class="alert alert-info">
-        ℹ️ Estas configurações são aplicadas em <strong>todos os cálculos de custo do sistema</strong>. Alterações entram em vigor imediatamente nos novos cálculos, sem necessidade de modificação de código. (CA04)
-      </div>
+        <div class="alert alert-info">
+          ℹ️ Estas configurações são aplicadas em <strong>todos os cálculos de custo do sistema</strong>. Alterações
+          entram em vigor imediatamente nos novos cálculos, sem necessidade de modificação de código. (CA04)
+        </div>
 
-      <!-- Parâmetros de Custo -->
-      <div class="param-section">
-        <div class="param-section-title">💰 Parâmetros de Custo (RF09)</div>
-        <div class="form-row-3">
-          <div class="form-group">
-            <label class="form-label">Valor do Combustível (R$/litro)</label>
-            <input class="form-control" type="number" id="p-combustivel" placeholder="6.00" min="0.01" step="0.01" oninput="atualizarPreview()">
-            <span style="font-size:var(--text-xs);color:var(--clr-text-muted);margin-top:var(--sp-1);display:block">Ex: gasolina comum, etanol, diesel</span>
+        <!-- Parâmetros de Custo -->
+        <div class="param-section">
+          <div class="param-section-title">💰 Parâmetros de Custo (RF09)</div>
+          <div class="form-row-3">
+            <div class="form-group">
+              <label class="form-label">Valor do Combustível (R$/litro)</label>
+              <input class="form-control" type="number" id="p-combustivel" placeholder="6.00" min="0.01" step="0.01"
+                oninput="atualizarPreview()">
+              <span
+                style="font-size:var(--text-xs);color:var(--clr-text-muted);margin-top:var(--sp-1);display:block">Ex:
+                gasolina comum, etanol, diesel</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Rendimento do Veículo (km/litro)</label>
+              <input class="form-control" type="number" id="p-kml" placeholder="12.0" min="0.1" step="0.1"
+                oninput="atualizarPreview()">
+              <span
+                style="font-size:var(--text-xs);color:var(--clr-text-muted);margin-top:var(--sp-1);display:block">Consumo
+                médio da frota</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Custo por km percorrido (R$/km)</label>
+              <input class="form-control" type="number" id="p-custoKm" placeholder="0.50" min="0" step="0.01"
+                oninput="atualizarPreview()">
+              <span
+                style="font-size:var(--text-xs);color:var(--clr-text-muted);margin-top:var(--sp-1);display:block">Depreciação
+                + manutenção</span>
+            </div>
           </div>
-          <div class="form-group">
-            <label class="form-label">Rendimento do Veículo (km/litro)</label>
-            <input class="form-control" type="number" id="p-kml" placeholder="12.0" min="0.1" step="0.1" oninput="atualizarPreview()">
-            <span style="font-size:var(--text-xs);color:var(--clr-text-muted);margin-top:var(--sp-1);display:block">Consumo médio da frota</span>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Custo por km percorrido (R$/km)</label>
-            <input class="form-control" type="number" id="p-custoKm" placeholder="0.50" min="0" step="0.01" oninput="atualizarPreview()">
-            <span style="font-size:var(--text-xs);color:var(--clr-text-muted);margin-top:var(--sp-1);display:block">Depreciação + manutenção</span>
+
+          <div class="preview-box">
+            <div class="preview-title">🧮 Simulação: roteiro de 20 km</div>
+            <div class="preview-item">
+              <span class="preview-item-label">Litros consumidos</span>
+              <span class="preview-item-value" id="prev-litros">—</span>
+            </div>
+            <div class="preview-item">
+              <span class="preview-item-label">Custo combustível</span>
+              <span class="preview-item-value" id="prev-combustivel">—</span>
+            </div>
+            <div class="preview-item">
+              <span class="preview-item-label">Custo por km</span>
+              <span class="preview-item-value" id="prev-custo-km">—</span>
+            </div>
+            <div class="preview-item"
+              style="border-top:2px solid var(--clr-primary);margin-top:var(--sp-2);padding-top:var(--sp-2)">
+              <span class="preview-item-label" style="font-weight:700">Custo total estimado</span>
+              <span class="preview-item-value" style="color:var(--clr-primary-light);font-size:var(--text-lg)"
+                id="prev-total">—</span>
+            </div>
           </div>
         </div>
 
-        <div class="preview-box">
-          <div class="preview-title">🧮 Simulação: roteiro de 20 km</div>
-          <div class="preview-item">
-            <span class="preview-item-label">Litros consumidos</span>
-            <span class="preview-item-value" id="prev-litros">—</span>
+        <!-- Parâmetros de Jornada -->
+        <div class="param-section">
+          <div class="param-section-title">🕐 Parâmetros de Jornada (RF10)</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Jornada padrão de trabalho (horas/dia)</label>
+              <input class="form-control" type="number" id="p-jornada" placeholder="8" min="1" max="24" step="1"
+                oninput="atualizarPreview()">
+              <span
+                style="font-size:var(--text-xs);color:var(--clr-text-muted);margin-top:var(--sp-1);display:block">Base
+                para cálculo do percentual de tempo parado (RN04). Padrão: 8h.</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Regra de cálculo do tempo parado</label>
+              <select class="form-control" id="p-regra">
+                <option value="saida_menos_chegada">Saída − Chegada (padrão — RN02)</option>
+                <option value="apenas_acima_5min">Apenas paradas &gt; 5 minutos</option>
+                <option value="apenas_acima_10min">Apenas paradas &gt; 10 minutos</option>
+              </select>
+            </div>
           </div>
-          <div class="preview-item">
-            <span class="preview-item-label">Custo combustível</span>
-            <span class="preview-item-value" id="prev-combustivel">—</span>
-          </div>
-          <div class="preview-item">
-            <span class="preview-item-label">Custo por km</span>
-            <span class="preview-item-value" id="prev-custo-km">—</span>
-          </div>
-          <div class="preview-item" style="border-top:2px solid var(--clr-primary);margin-top:var(--sp-2);padding-top:var(--sp-2)">
-            <span class="preview-item-label" style="font-weight:700">Custo total estimado</span>
-            <span class="preview-item-value" style="color:var(--clr-primary-light);font-size:var(--text-lg)" id="prev-total">—</span>
+
+          <div class="preview-box">
+            <div class="preview-title">📊 Exemplo: 75 minutos parados</div>
+            <div class="preview-item">
+              <span class="preview-item-label">Jornada configurada</span>
+              <span class="preview-item-value" id="prev-jornada">—</span>
+            </div>
+            <div class="preview-item">
+              <span class="preview-item-label">% da jornada parado</span>
+              <span class="preview-item-value" id="prev-pct">—</span>
+            </div>
           </div>
         </div>
+
+        <!-- Auditoria -->
+        <div class="param-section">
+          <div class="param-section-title">🔍 Log de Auditoria (RNF05)</div>
+          <p style="color:var(--clr-text-secondary);font-size:var(--text-sm);margin-bottom:var(--sp-4)">
+            Registro das últimas alterações em pontos e horários do sistema.
+          </p>
+          <div id="lista-auditoria">
+            <div style="color:var(--clr-text-muted);font-size:var(--text-sm)">Carregando...</div>
+          </div>
+        </div>
+
       </div>
+    </main>
+  </div>
 
-      <!-- Parâmetros de Jornada -->
-      <div class="param-section">
-        <div class="param-section-title">🕐 Parâmetros de Jornada (RF10)</div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Jornada padrão de trabalho (horas/dia)</label>
-            <input class="form-control" type="number" id="p-jornada" placeholder="8" min="1" max="24" step="1" oninput="atualizarPreview()">
-            <span style="font-size:var(--text-xs);color:var(--clr-text-muted);margin-top:var(--sp-1);display:block">Base para cálculo do percentual de tempo parado (RN04). Padrão: 8h.</span>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Regra de cálculo do tempo parado</label>
-            <select class="form-control" id="p-regra">
-              <option value="saida_menos_chegada">Saída − Chegada (padrão — RN02)</option>
-              <option value="apenas_acima_5min">Apenas paradas &gt; 5 minutos</option>
-              <option value="apenas_acima_10min">Apenas paradas &gt; 10 minutos</option>
-            </select>
-          </div>
-        </div>
+  <script src="js/db.js"></script>
+  <script src="js/calculos.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    iniciarPagina('parametros.html');
+    Auth.exigirPerfil('admin');
+    DB.seed();
 
-        <div class="preview-box">
-          <div class="preview-title">📊 Exemplo: 75 minutos parados</div>
-          <div class="preview-item">
-            <span class="preview-item-label">Jornada configurada</span>
-            <span class="preview-item-value" id="prev-jornada">—</span>
-          </div>
-          <div class="preview-item">
-            <span class="preview-item-label">% da jornada parado</span>
-            <span class="preview-item-value" id="prev-pct">—</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Auditoria -->
-      <div class="param-section">
-        <div class="param-section-title">🔍 Log de Auditoria (RNF05)</div>
-        <p style="color:var(--clr-text-secondary);font-size:var(--text-sm);margin-bottom:var(--sp-4)">
-          Registro das últimas alterações em pontos e horários do sistema.
-        </p>
-        <div id="lista-auditoria">
-          <div style="color:var(--clr-text-muted);font-size:var(--text-sm)">Carregando...</div>
-        </div>
-      </div>
-
-    </div>
-  </main>
-</div>
-
-<script src="js/db.js"></script>
-<script src="js/calculos.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/ui.js"></script>
-<script>
-  iniciarPagina('parametros.html');
-  Auth.exigirPerfil('admin');
-  DB.seed();
-
-  function carregarParametros() {
-    const p = DB.parametros.get();
-    document.getElementById('p-combustivel').value = p.valorCombustivel || 6.00;
-    document.getElementById('p-kml').value         = p.kmPorLitro || 12.0;
-    document.getElementById('p-custoKm').value     = p.custoPorKm || 0.50;
-    document.getElementById('p-jornada').value     = p.jornadaPadraoHoras || 8;
-    document.getElementById('p-regra').value       = p.regraTempoParado || 'saida_menos_chegada';
-    atualizarPreview();
-  }
-
-  function atualizarPreview() {
-    const combustivel = parseFloat(document.getElementById('p-combustivel').value) || 6;
-    const kml         = parseFloat(document.getElementById('p-kml').value) || 12;
-    const custoPorKm  = parseFloat(document.getElementById('p-custoKm').value) || 0.5;
-    const jornada     = parseFloat(document.getElementById('p-jornada').value) || 8;
-
-    const distSim = 20; // km de simulação
-    const litros  = distSim / kml;
-    const custoComb = litros * combustivel;
-    const custoKmTotal = distSim * custoPorKm;
-    const total   = custoComb + custoKmTotal;
-
-    document.getElementById('prev-litros').textContent     = litros.toFixed(2) + ' L';
-    document.getElementById('prev-combustivel').textContent = Calculos.formatarMoeda(custoComb);
-    document.getElementById('prev-custo-km').textContent   = Calculos.formatarMoeda(custoKmTotal);
-    document.getElementById('prev-total').textContent      = Calculos.formatarMoeda(total);
-
-    const pct = Calculos.percentualJornada(75, jornada);
-    document.getElementById('prev-jornada').textContent = `${jornada}h (${jornada * 60} min)`;
-    document.getElementById('prev-pct').textContent     = `${pct}%`;
-  }
-
-  function salvarParametros() {
-    const dados = {
-      valorCombustivel:   parseFloat(document.getElementById('p-combustivel').value) || 6,
-      kmPorLitro:         parseFloat(document.getElementById('p-kml').value) || 12,
-      custoPorKm:         parseFloat(document.getElementById('p-custoKm').value) || 0.5,
-      jornadaPadraoHoras: parseInt(document.getElementById('p-jornada').value) || 8,
-      regraTempoParado:   document.getElementById('p-regra').value,
-    };
-
-    DB.parametros.salvar(dados);
-    showToast('Parâmetros salvos com sucesso! ⚙️', 'success');
-    carregarAuditoria();
-  }
-
-  function carregarAuditoria() {
-    const logs = DB.auditoria.listar()
-      .filter(l => l.entidade === 'parametros' || l.entidade === 'roteiro_ponto')
-      .sort((a, b) => b.ts.localeCompare(a.ts))
-      .slice(0, 20);
-
-    const container = document.getElementById('lista-auditoria');
-
-    if (logs.length === 0) {
-      container.innerHTML = '<div style="color:var(--clr-text-muted);font-size:var(--text-sm)">Nenhum registro de auditoria.</div>';
-      return;
+    function carregarParametros() {
+      const p = DB.parametros.get();
+      document.getElementById('p-combustivel').value = p.valorCombustivel || 6.00;
+      document.getElementById('p-kml').value = p.kmPorLitro || 12.0;
+      document.getElementById('p-custoKm').value = p.custoPorKm || 0.50;
+      document.getElementById('p-jornada').value = p.jornadaPadraoHoras || 8;
+      document.getElementById('p-regra').value = p.regraTempoParado || 'saida_menos_chegada';
+      atualizarPreview();
     }
 
-    const icones = { CREATE: '➕', UPDATE: '✏️', DELETE: '🗑️', CHECKIN: '✅', CHECKOUT: '🚪' };
+    function atualizarPreview() {
+      const combustivel = parseFloat(document.getElementById('p-combustivel').value) || 6;
+      const kml = parseFloat(document.getElementById('p-kml').value) || 12;
+      const custoPorKm = parseFloat(document.getElementById('p-custoKm').value) || 0.5;
+      const jornada = parseFloat(document.getElementById('p-jornada').value) || 8;
 
-    container.innerHTML = logs.map(l => `
+      const distSim = 20; // km de simulação
+      const litros = distSim / kml;
+      const custoComb = litros * combustivel;
+      const custoKmTotal = distSim * custoPorKm;
+      const total = custoComb + custoKmTotal;
+
+      document.getElementById('prev-litros').textContent = litros.toFixed(2) + ' L';
+      document.getElementById('prev-combustivel').textContent = Calculos.formatarMoeda(custoComb);
+      document.getElementById('prev-custo-km').textContent = Calculos.formatarMoeda(custoKmTotal);
+      document.getElementById('prev-total').textContent = Calculos.formatarMoeda(total);
+
+      const pct = Calculos.percentualJornada(75, jornada);
+      document.getElementById('prev-jornada').textContent = `${jornada}h (${jornada * 60} min)`;
+      document.getElementById('prev-pct').textContent = `${pct}%`;
+    }
+
+    function salvarParametros() {
+      const dados = {
+        valorCombustivel: parseFloat(document.getElementById('p-combustivel').value) || 6,
+        kmPorLitro: parseFloat(document.getElementById('p-kml').value) || 12,
+        custoPorKm: parseFloat(document.getElementById('p-custoKm').value) || 0.5,
+        jornadaPadraoHoras: parseInt(document.getElementById('p-jornada').value) || 8,
+        regraTempoParado: document.getElementById('p-regra').value,
+      };
+
+      DB.parametros.salvar(dados);
+      showToast('Parâmetros salvos com sucesso! ⚙️', 'success');
+      carregarAuditoria();
+    }
+
+    function carregarAuditoria() {
+      const logs = DB.auditoria.listar()
+        .filter(l => l.entidade === 'parametros' || l.entidade === 'roteiro_ponto')
+        .sort((a, b) => b.ts.localeCompare(a.ts))
+        .slice(0, 20);
+
+      const container = document.getElementById('lista-auditoria');
+
+      if (logs.length === 0) {
+        container.innerHTML = '<div style="color:var(--clr-text-muted);font-size:var(--text-sm)">Nenhum registro de auditoria.</div>';
+        return;
+      }
+
+      const icones = { CREATE: '➕', UPDATE: '✏️', DELETE: '🗑️', CHECKIN: '✅', CHECKOUT: '🚪' };
+
+      container.innerHTML = logs.map(l => `
       <div class="auditoria-row">
         <span style="font-size:1.2rem">${icones[l.acao] || '📝'}</span>
         <div>
@@ -250,10 +284,11 @@
         <span style="font-size:var(--text-xs);color:var(--clr-text-muted);white-space:nowrap">${Calculos.formatarDataHora(l.ts)}</span>
       </div>
     `).join('');
-  }
+    }
 
-  carregarParametros();
-  carregarAuditoria();
-</script>
+    carregarParametros();
+    carregarAuditoria();
+  </script>
 </body>
+
 </html>

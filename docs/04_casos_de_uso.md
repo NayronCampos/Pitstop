@@ -1,4 +1,4 @@
-# Casos de Uso — RouteWatch
+# Casos de Uso — Pitstop
 
 **Disciplina:** Engenharia de Software II  
 **Professor:** Sandro Laudares  
@@ -46,7 +46,7 @@ actor "Gerente /\nCoordenador" as Gerente
 actor "Administrador" as Admin
 actor "Sistema" as Sistema
 
-rectangle "RouteWatch — Sistema de Monitoramento de Tempo Parado" {
+rectangle "Pitstop — Sistema de Monitoramento de Tempo Parado" {
 
     usecase "UC01\nCadastrar / Editar\nMotorista" as UC01
     usecase "UC02\nCadastrar / Editar\nGerente" as UC02
@@ -201,3 +201,5 @@ Sistema --> UC11
 4. Todos os cálculos futuros passam a usar os novos parâmetros
 
 **Critério de aceitação:** Parâmetros podem ser alterados sem modificação de código-fonte.
+
+![casos de uso](diagramas/casos_de_uso.png)

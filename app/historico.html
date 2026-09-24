@@ -1,243 +1,252 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RouteWatch — Histórico</title>
+  <title>Pitstop — Histórico</title>
   <meta name="description" content="Histórico de pontos e tempos parados por período, com endereços.">
   <link rel="stylesheet" href="css/style.css">
   <style>
     .historico-row-expand {
-      background: rgba(99,102,241,0.04);
+      background: rgba(249, 115, 22, 0.04);
       padding: var(--sp-4);
       border-radius: var(--radius-md);
       margin-top: var(--sp-2);
       display: none;
     }
-    .historico-row-expand.open { display: block; }
+
+    .historico-row-expand.open {
+      display: block;
+    }
+
     .ponto-detalhe-row {
       display: grid;
       grid-template-columns: 32px 1fr auto auto auto;
       gap: var(--sp-3);
       align-items: center;
       padding: var(--sp-2) 0;
-      border-bottom: 1px solid rgba(51,65,85,0.3);
+      border-bottom: 1px solid rgba(51, 65, 85, 0.3);
       font-size: var(--text-sm);
     }
-    .ponto-detalhe-row:last-child { border-bottom: none; }
+
+    .ponto-detalhe-row:last-child {
+      border-bottom: none;
+    }
   </style>
 </head>
+
 <body>
-<div class="app-layout">
-  <aside class="sidebar" id="sidebar"></aside>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
 
-  <main class="main-content">
-    <header class="topbar">
-      <div>
-        <h1 class="topbar-title">📋 Histórico</h1>
-        <p class="topbar-subtitle">Pontos e tempos parados por período (RF07)</p>
-      </div>
-      <div class="topbar-actions">
-        <button class="btn btn-secondary btn-sm" onclick="exportarHistorico()">⬇ Exportar CSV</button>
-      </div>
-    </header>
-
-    <div class="page-content animate-fade-in">
-
-      <!-- Filtros -->
-      <div class="card mb-6">
-        <div class="card-header">
-          <div class="card-title">🔍 Filtrar por período</div>
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <h1 class="topbar-title">📋 Histórico</h1>
+          <p class="topbar-subtitle">Pontos e tempos parados por período (RF07)</p>
         </div>
-        <div style="display:flex; gap:var(--sp-4); flex-wrap:wrap; align-items:flex-end">
-          <div class="form-group" style="margin-bottom:0;min-width:180px">
-            <label class="form-label">Motorista</label>
-            <select class="form-control" id="filtro-motorista">
-              <option value="">Todos</option>
-            </select>
+        <div class="topbar-actions">
+          <button class="btn btn-secondary btn-sm" onclick="exportarHistorico()">⬇ Exportar CSV</button>
+        </div>
+      </header>
+
+      <div class="page-content animate-fade-in">
+
+        <!-- Filtros -->
+        <div class="card mb-6">
+          <div class="card-header">
+            <div class="card-title">🔍 Filtrar por período</div>
           </div>
-          <div class="form-group" style="margin-bottom:0">
-            <label class="form-label">Data início</label>
-            <input type="date" class="form-control" id="filtro-inicio">
+          <div style="display:flex; gap:var(--sp-4); flex-wrap:wrap; align-items:flex-end">
+            <div class="form-group" style="margin-bottom:0;min-width:180px">
+              <label class="form-label">Motorista</label>
+              <select class="form-control" id="filtro-motorista">
+                <option value="">Todos</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label">Data início</label>
+              <input type="date" class="form-control" id="filtro-inicio">
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label">Data fim</label>
+              <input type="date" class="form-control" id="filtro-fim">
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label">Atalhos</label>
+              <div class="flex gap-2">
+                <button class="btn btn-secondary btn-sm" onclick="setAtalho(7)">7 dias</button>
+                <button class="btn btn-secondary btn-sm" onclick="setAtalho(30)">30 dias</button>
+                <button class="btn btn-secondary btn-sm" onclick="setAtalho(90)">90 dias</button>
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="aplicarFiltros()">🔍 Filtrar</button>
+            <button class="btn btn-secondary" onclick="limparFiltros()">✕ Limpar</button>
           </div>
-          <div class="form-group" style="margin-bottom:0">
-            <label class="form-label">Data fim</label>
-            <input type="date" class="form-control" id="filtro-fim">
-          </div>
-          <div class="form-group" style="margin-bottom:0">
-            <label class="form-label">Atalhos</label>
-            <div class="flex gap-2">
-              <button class="btn btn-secondary btn-sm" onclick="setAtalho(7)">7 dias</button>
-              <button class="btn btn-secondary btn-sm" onclick="setAtalho(30)">30 dias</button>
-              <button class="btn btn-secondary btn-sm" onclick="setAtalho(90)">90 dias</button>
+        </div>
+
+        <!-- Resumo KPIs -->
+        <div class="kpi-grid" id="kpi-historico" style="margin-bottom:var(--sp-6)">
+          <div class="kpi-card">
+            <div class="kpi-icon primary">🗺️</div>
+            <div class="kpi-info">
+              <div class="kpi-value" id="h-total-roteiros">—</div>
+              <div class="kpi-label">Roteiros no período</div>
             </div>
           </div>
-          <button class="btn btn-primary" onclick="aplicarFiltros()">🔍 Filtrar</button>
-          <button class="btn btn-secondary" onclick="limparFiltros()">✕ Limpar</button>
+          <div class="kpi-card">
+            <div class="kpi-icon warning">⏱️</div>
+            <div class="kpi-info">
+              <div class="kpi-value" id="h-total-tempo">—</div>
+              <div class="kpi-label">Tempo total parado</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon success">💰</div>
+            <div class="kpi-info">
+              <div class="kpi-value" id="h-total-custo">—</div>
+              <div class="kpi-label">Custo total estimado</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon accent">📏</div>
+            <div class="kpi-info">
+              <div class="kpi-value" id="h-total-km">—</div>
+              <div class="kpi-label">Distância total</div>
+            </div>
+          </div>
         </div>
+
+        <!-- Tabela -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Roteiros detalhados</div>
+            <span class="badge badge-muted" id="count-label">— roteiros</span>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Data</th>
+                  <th>Motorista</th>
+                  <th>Pontos</th>
+                  <th>Tempo parado</th>
+                  <th>% Jornada</th>
+                  <th>Distância</th>
+                  <th>Custo est.</th>
+                </tr>
+              </thead>
+              <tbody id="tabela-historico"></tbody>
+            </table>
+          </div>
+          <div class="empty-state" id="empty-historico" style="display:none">
+            <div class="empty-icon">📋</div>
+            <div class="empty-title">Nenhum roteiro no período</div>
+            <div class="empty-text">Ajuste os filtros ou cadastre roteiros</div>
+          </div>
+        </div>
+
       </div>
+    </main>
+  </div>
 
-      <!-- Resumo KPIs -->
-      <div class="kpi-grid" id="kpi-historico" style="margin-bottom:var(--sp-6)">
-        <div class="kpi-card">
-          <div class="kpi-icon primary">🗺️</div>
-          <div class="kpi-info">
-            <div class="kpi-value" id="h-total-roteiros">—</div>
-            <div class="kpi-label">Roteiros no período</div>
-          </div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-icon warning">⏱️</div>
-          <div class="kpi-info">
-            <div class="kpi-value" id="h-total-tempo">—</div>
-            <div class="kpi-label">Tempo total parado</div>
-          </div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-icon success">💰</div>
-          <div class="kpi-info">
-            <div class="kpi-value" id="h-total-custo">—</div>
-            <div class="kpi-label">Custo total estimado</div>
-          </div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-icon accent">📏</div>
-          <div class="kpi-info">
-            <div class="kpi-value" id="h-total-km">—</div>
-            <div class="kpi-label">Distância total</div>
-          </div>
-        </div>
-      </div>
+  <script src="js/db.js"></script>
+  <script src="js/calculos.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    iniciarPagina('historico.html');
+    DB.seed();
 
-      <!-- Tabela -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">Roteiros detalhados</div>
-          <span class="badge badge-muted" id="count-label">— roteiros</span>
-        </div>
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th></th>
-                <th>Data</th>
-                <th>Motorista</th>
-                <th>Pontos</th>
-                <th>Tempo parado</th>
-                <th>% Jornada</th>
-                <th>Distância</th>
-                <th>Custo est.</th>
-              </tr>
-            </thead>
-            <tbody id="tabela-historico"></tbody>
-          </table>
-        </div>
-        <div class="empty-state" id="empty-historico" style="display:none">
-          <div class="empty-icon">📋</div>
-          <div class="empty-title">Nenhum roteiro no período</div>
-          <div class="empty-text">Ajuste os filtros ou cadastre roteiros</div>
-        </div>
-      </div>
+    const usuario = Auth.usuarioAtual();
+    let roteirosExibidos = [];
 
-    </div>
-  </main>
-</div>
-
-<script src="js/db.js"></script>
-<script src="js/calculos.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/ui.js"></script>
-<script>
-  iniciarPagina('historico.html');
-  DB.seed();
-
-  const usuario = Auth.usuarioAtual();
-  let roteirosExibidos = [];
-
-  function preencherFiltros() {
-    const sel = document.getElementById('filtro-motorista');
-    DB.motoristas.listar().forEach(m => {
-      const opt = document.createElement('option');
-      opt.value = m.id; opt.textContent = m.nome;
-      sel.appendChild(opt);
-    });
-    if (usuario.perfil === 'motorista' && usuario.motoristaId) {
-      sel.value = usuario.motoristaId;
-      sel.disabled = true;
+    function preencherFiltros() {
+      const sel = document.getElementById('filtro-motorista');
+      DB.motoristas.listar().forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m.id; opt.textContent = m.nome;
+        sel.appendChild(opt);
+      });
+      if (usuario.perfil === 'motorista' && usuario.motoristaId) {
+        sel.value = usuario.motoristaId;
+        sel.disabled = true;
+      }
+      setAtalho(30);
     }
-    setAtalho(30);
-  }
 
-  function setAtalho(dias) {
-    const fim = new Date();
-    const ini = new Date(); ini.setDate(ini.getDate() - (dias - 1));
-    document.getElementById('filtro-fim').value   = fim.toISOString().split('T')[0];
-    document.getElementById('filtro-inicio').value = ini.toISOString().split('T')[0];
-    aplicarFiltros();
-  }
-
-  function aplicarFiltros() {
-    const motoristaId = document.getElementById('filtro-motorista').value;
-    const inicio      = document.getElementById('filtro-inicio').value;
-    const fim         = document.getElementById('filtro-fim').value;
-
-    let roteiros = DB.roteiros.listar().sort((a, b) => b.data.localeCompare(a.data));
-
-    if (inicio) roteiros = roteiros.filter(r => r.data >= inicio);
-    if (fim)    roteiros = roteiros.filter(r => r.data <= fim);
-    if (motoristaId) roteiros = roteiros.filter(r => r.motoristaId == motoristaId);
-    if (usuario.perfil === 'motorista' && usuario.motoristaId)
-      roteiros = roteiros.filter(r => r.motoristaId == usuario.motoristaId);
-
-    roteirosExibidos = roteiros;
-    renderHistorico(roteiros);
-  }
-
-  function limparFiltros() {
-    document.getElementById('filtro-motorista').value = '';
-    document.getElementById('filtro-inicio').value = '';
-    document.getElementById('filtro-fim').value = '';
-    aplicarFiltros();
-  }
-
-  function renderHistorico(roteiros) {
-    const motoristas = DB.motoristas.listar();
-    const params     = DB.parametros.get();
-    const tbody      = document.getElementById('tabela-historico');
-    const empty      = document.getElementById('empty-historico');
-
-    // KPIs
-    const totalRoteiros = roteiros.length;
-    const totalTempo    = roteiros.reduce((s, r) => s + (r.tempoTotalParadoMin || 0), 0);
-    const totalCusto    = roteiros.reduce((s, r) => s + (r.custoEstimado || 0), 0);
-    const totalKm       = roteiros.reduce((s, r) => s + (r.distanciaKm || 0), 0);
-
-    document.getElementById('h-total-roteiros').textContent = totalRoteiros;
-    document.getElementById('h-total-tempo').textContent    = Calculos.formatarTempo(totalTempo);
-    document.getElementById('h-total-custo').textContent    = Calculos.formatarMoeda(totalCusto);
-    document.getElementById('h-total-km').textContent       = `${totalKm.toFixed(1)} km`;
-    document.getElementById('count-label').textContent      = `${totalRoteiros} roteiros`;
-
-    if (roteiros.length === 0) {
-      tbody.innerHTML = '';
-      empty.style.display = 'block';
-      return;
+    function setAtalho(dias) {
+      const fim = new Date();
+      const ini = new Date(); ini.setDate(ini.getDate() - (dias - 1));
+      document.getElementById('filtro-fim').value = fim.toISOString().split('T')[0];
+      document.getElementById('filtro-inicio').value = ini.toISOString().split('T')[0];
+      aplicarFiltros();
     }
-    empty.style.display = 'none';
 
-    tbody.innerHTML = roteiros.map((r, idx) => {
-      const m   = motoristas.find(m => m.id === r.motoristaId);
-      const pct = Calculos.percentualJornada(r.tempoTotalParadoMin, params.jornadaPadraoHoras);
-      const badgeCls = pct > 30 ? 'danger' : pct > 15 ? 'warning' : 'success';
+    function aplicarFiltros() {
+      const motoristaId = document.getElementById('filtro-motorista').value;
+      const inicio = document.getElementById('filtro-inicio').value;
+      const fim = document.getElementById('filtro-fim').value;
 
-      const pontosDetalhe = (r.pontos || []).map(p => `
+      let roteiros = DB.roteiros.listar().sort((a, b) => b.data.localeCompare(a.data));
+
+      if (inicio) roteiros = roteiros.filter(r => r.data >= inicio);
+      if (fim) roteiros = roteiros.filter(r => r.data <= fim);
+      if (motoristaId) roteiros = roteiros.filter(r => r.motoristaId == motoristaId);
+      if (usuario.perfil === 'motorista' && usuario.motoristaId)
+        roteiros = roteiros.filter(r => r.motoristaId == usuario.motoristaId);
+
+      roteirosExibidos = roteiros;
+      renderHistorico(roteiros);
+    }
+
+    function limparFiltros() {
+      document.getElementById('filtro-motorista').value = '';
+      document.getElementById('filtro-inicio').value = '';
+      document.getElementById('filtro-fim').value = '';
+      aplicarFiltros();
+    }
+
+    function renderHistorico(roteiros) {
+      const motoristas = DB.motoristas.listar();
+      const params = DB.parametros.get();
+      const tbody = document.getElementById('tabela-historico');
+      const empty = document.getElementById('empty-historico');
+
+      // KPIs
+      const totalRoteiros = roteiros.length;
+      const totalTempo = roteiros.reduce((s, r) => s + (r.tempoTotalParadoMin || 0), 0);
+      const totalCusto = roteiros.reduce((s, r) => s + (r.custoEstimado || 0), 0);
+      const totalKm = roteiros.reduce((s, r) => s + (r.distanciaKm || 0), 0);
+
+      document.getElementById('h-total-roteiros').textContent = totalRoteiros;
+      document.getElementById('h-total-tempo').textContent = Calculos.formatarTempo(totalTempo);
+      document.getElementById('h-total-custo').textContent = Calculos.formatarMoeda(totalCusto);
+      document.getElementById('h-total-km').textContent = `${totalKm.toFixed(1)} km`;
+      document.getElementById('count-label').textContent = `${totalRoteiros} roteiros`;
+
+      if (roteiros.length === 0) {
+        tbody.innerHTML = '';
+        empty.style.display = 'block';
+        return;
+      }
+      empty.style.display = 'none';
+
+      tbody.innerHTML = roteiros.map((r, idx) => {
+        const m = motoristas.find(m => m.id === r.motoristaId);
+        const pct = Calculos.percentualJornada(r.tempoTotalParadoMin, params.jornadaPadraoHoras);
+        const badgeCls = pct > 30 ? 'danger' : pct > 15 ? 'warning' : 'success';
+
+        const pontosDetalhe = (r.pontos || []).map(p => `
         <div class="ponto-detalhe-row">
-          <div style="width:28px;height:28px;background:${p.ordem===1?'linear-gradient(135deg,#06b6d4,#0891b2)':'var(--grad-primary)'};border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;">${p.ordem}</div>
+          <div style="width:28px;height:28px;background:${p.ordem === 1 ? 'linear-gradient(135deg,#06b6d4,#0891b2)' : 'var(--grad-primary)'};border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;">${p.ordem}</div>
           <div>
             <div style="font-weight:500">${p.endereco}</div>
             <div style="color:var(--clr-text-muted);font-size:var(--text-xs)">
               ${p.dataHoraChegada ? 'Chegada: ' + Calculos.formatarDataHora(p.dataHoraChegada) : ''}
-              ${p.dataHoraSaida   ? ' | Saída: ' + Calculos.formatarDataHora(p.dataHoraSaida) : ''}
+              ${p.dataHoraSaida ? ' | Saída: ' + Calculos.formatarDataHora(p.dataHoraSaida) : ''}
             </div>
           </div>
           <div style="color:var(--clr-primary-light);font-weight:700;min-width:70px;text-align:right">
@@ -248,7 +257,7 @@
         </div>
       `).join('');
 
-      return `
+        return `
         <tr onclick="toggleExpand(${idx})" style="cursor:pointer">
           <td id="expand-icon-${idx}" style="font-size:0.8rem;color:var(--clr-text-muted)">▶</td>
           <td>${Calculos.formatarData(r.data)}</td>
@@ -267,43 +276,44 @@
           </td>
         </tr>
       `;
-    }).join('');
-  }
+      }).join('');
+    }
 
-  function toggleExpand(idx) {
-    const el   = document.getElementById(`expand-${idx}`);
-    const icon = document.getElementById(`expand-icon-${idx}`);
-    el.classList.toggle('open');
-    icon.textContent = el.classList.contains('open') ? '▼' : '▶';
-  }
+    function toggleExpand(idx) {
+      const el = document.getElementById(`expand-${idx}`);
+      const icon = document.getElementById(`expand-icon-${idx}`);
+      el.classList.toggle('open');
+      icon.textContent = el.classList.contains('open') ? '▼' : '▶';
+    }
 
-  function exportarHistorico() {
-    const motoristas = DB.motoristas.listar();
-    const params     = DB.parametros.get();
-    const dados = [];
+    function exportarHistorico() {
+      const motoristas = DB.motoristas.listar();
+      const params = DB.parametros.get();
+      const dados = [];
 
-    roteirosExibidos.forEach(r => {
-      const m = motoristas.find(m => m.id === r.motoristaId);
-      (r.pontos || []).forEach(p => {
-        dados.push({
-          'Data do Roteiro': r.data,
-          'Motorista': m ? m.nome : r.motoristaId,
-          'Veículo': m ? m.veiculo : '—',
-          'Ordem no Roteiro': p.ordem,
-          'Endereço': p.endereco,
-          'Data/Hora Chegada': p.dataHoraChegada || '—',
-          'Data/Hora Saída': p.dataHoraSaida || '—',
-          'Tempo Parado (min)': p.ordem === 1 ? 0 : (p.tempoParadoMin || 0),
-          'Tempo Parado': Calculos.formatarTempo(p.ordem === 1 ? 0 : p.tempoParadoMin),
-          '% Jornada': p.ordem === 1 ? '0%' : Calculos.percentualJornada(p.tempoParadoMin, params.jornadaPadraoHoras) + '%',
+      roteirosExibidos.forEach(r => {
+        const m = motoristas.find(m => m.id === r.motoristaId);
+        (r.pontos || []).forEach(p => {
+          dados.push({
+            'Data do Roteiro': r.data,
+            'Motorista': m ? m.nome : r.motoristaId,
+            'Veículo': m ? m.veiculo : '—',
+            'Ordem no Roteiro': p.ordem,
+            'Endereço': p.endereco,
+            'Data/Hora Chegada': p.dataHoraChegada || '—',
+            'Data/Hora Saída': p.dataHoraSaida || '—',
+            'Tempo Parado (min)': p.ordem === 1 ? 0 : (p.tempoParadoMin || 0),
+            'Tempo Parado': Calculos.formatarTempo(p.ordem === 1 ? 0 : p.tempoParadoMin),
+            '% Jornada': p.ordem === 1 ? '0%' : Calculos.percentualJornada(p.tempoParadoMin, params.jornadaPadraoHoras) + '%',
+          });
         });
       });
-    });
 
-    exportarCSV(dados, `routewatch_historico_${new Date().toISOString().split('T')[0]}.csv`);
-  }
+      exportarCSV(dados, `Pitstop_historico_${new Date().toISOString().split('T')[0]}.csv`);
+    }
 
-  preencherFiltros();
-</script>
+    preencherFiltros();
+  </script>
 </body>
+
 </html>
