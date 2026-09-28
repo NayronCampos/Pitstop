@@ -202,4 +202,4 @@ Sistema --> UC11
 
 **Critério de aceitação:** Parâmetros podem ser alterados sem modificação de código-fonte.
 
-![casos de uso](diagramas/casos_de_uso.png)
+![casos de uso](diagramas/caso_uso.png)

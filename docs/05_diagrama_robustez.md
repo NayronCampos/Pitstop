@@ -212,4 +212,4 @@ Gerente/Admin
       → EntMotorista (para filtro opcional por motorista)
     → TelaDashboard (renderiza gráficos via Chart.js)
 ```
-![diagrama de robustez](diagramas/diagrama_robustez.png)
+![diagrama de robustez](diagramas/robustez.png)
