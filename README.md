@@ -7,7 +7,7 @@
 
 **Disciplina:** Engenharia de Software II — PUC Minas  
 **Professor:** Sandro Laudares  
-**Equipe:** _(preencher nome dos integrantes)_  
+**Equipe:** Davi Manoel e Nayron Campos  
 
 ---
 
